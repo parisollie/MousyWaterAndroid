@@ -2,4 +2,9 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!--TODO Step 2: For the best practice add the color values in the color.xml file located in the res -> values folder. -->
+    <!--START-->
+    <color name="colorWhite">#FFFFFF</color>
+    <!--END-->
 </resources>
