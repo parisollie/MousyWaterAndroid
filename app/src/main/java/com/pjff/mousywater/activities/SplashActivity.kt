@@ -1,10 +1,11 @@
-package com.pjff.mousywater
+package com.pjff.mousywater.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.WindowManager
 import android.content.Intent
 import android.os.Handler
+import com.pjff.mousywater.R
 
 class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,6 +33,15 @@ class SplashActivity : AppCompatActivity() {
             2500
         ) // Here we pass the delay time in milliSeconds after which the splash activity will disappear.
 
+        // TODO Step 2: Use the custom font to show the app name in the splash screen.
+        // This is used to get the file from the assets folder and set it to the title textView.
+        // START
+        // TODO Step 5: Comment the Typeface code here once you have replaced the TextView with custom class in the XML file.
+        // START
+       /* val typeface: Typeface =
+            Typeface.createFromAsset(assets, "Montserrat-Bold.ttf")
+        tv_app_name.typeface = typeface*/
+        // END
         // END
 
 

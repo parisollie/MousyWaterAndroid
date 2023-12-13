@@ -5,9 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/img_splash_background"
-    tools:context=".SplashActivity">
+    tools:context=".activities.SplashActivity">
 
-    <TextView
+    <!--TODO Step 1: Add the id to TextView.-->
+    <!--TODO Step 4: Replace the TextView with custom class what we have created as "MSPTextViewBold".-->
+    <com.pjff.mousywater.utils.MSPTextViewBold
+        android:id="@+id/tv_app_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/app_name"

@@ -1,7 +1,8 @@
-package com.pjff.mousywater
+package com.pjff.mousywater.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.pjff.mousywater.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
