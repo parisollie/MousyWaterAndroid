@@ -2,14 +2,15 @@
 <resources>
     <!--TODO Step 4: For the best practices color values in the colors.xml file. Here we have updated the theme colors and added few color values which we will be using it later on.-->
     <!--START-->
-    <color name="colorPrimary">#18A6A2</color>
+    <color name="colorPrimary">#ED2173</color>
     <color name="colorPrimaryDark">#222934</color>
-    <color name="colorAccent">#277B83</color>
+    <color name="colorAccent">#ED2173</color>
 
-    <color name="colorThemePink">#03A9F4</color>
-    <color name="colorThemeOrange">#1674C6</color>
+    <color name="colorThemePink">#ED2173</color>
+    <color name="colorThemeOrange">#F4442d</color>
 
     <color name="colorPrimaryText">#222934</color>
     <color name="colorSecondaryText">#989898</color>
-    <!--END-->
+
+    <color name="colorWhite">#FFFFFF</color>
 </resources>
