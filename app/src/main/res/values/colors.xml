@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
-
-    <!--TODO Step 2: For the best practice add the color values in the color.xml file located in the res -> values folder. -->
+    <!--TODO Step 4: For the best practices color values in the colors.xml file. Here we have updated the theme colors and added few color values which we will be using it later on.-->
     <!--START-->
-    <color name="colorWhite">#FFFFFF</color>
+    <color name="colorPrimary">#18A6A2</color>
+    <color name="colorPrimaryDark">#222934</color>
+    <color name="colorAccent">#277B83</color>
+
+    <color name="colorThemePink">#03A9F4</color>
+    <color name="colorThemeOrange">#1674C6</color>
+
+    <color name="colorPrimaryText">#222934</color>
+    <color name="colorSecondaryText">#989898</color>
     <!--END-->
 </resources>
