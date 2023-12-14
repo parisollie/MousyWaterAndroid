@@ -7,36 +7,32 @@ import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.pjff.mousywater.R
 import com.pjff.mousywater.databinding.ActivityForgotPasswordBinding
-import com.pjff.mousywater.databinding.ActivityLoginBinding
 
-// TODO Step 1: Replace the AppCompactActivity with BaseActivity.
+
 /**
  * Forgot Password Screen of the application.
  */
 class ForgotPasswordActivity : BaseActivity() {
     private lateinit var binding: ActivityForgotPasswordBinding
-
     /**
      * This function is auto created by Android when the Activity Class is created.
      */
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        //This call the parent constructor
         //This call the parent constructor
         super.onCreate(savedInstanceState)
         // This is used to align the xml view to this class
         binding = ActivityForgotPasswordBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+
         setupActionBar()
 
-        //TODO Step 2: Assign the click even to the submit button.
-        // In this screen there is only a one input field so we will not create the separate function what we have done in the Register and Login Screens.
-        // I will show you how to perform all the operations in the on click function it self.
-
-        // START
         binding.btnSubmit.setOnClickListener {
 
             // Get the email id from the input field.
-            val email: String = binding.etEmail.text.toString().trim { it <= ' ' }
+            val email: String = binding.etEmailForgotPw.text.toString().trim { it <= ' ' }
 
             // Now, If the email entered in blank then show the error message or else continue with the implemented feature.
             if (email.isEmpty()) {
@@ -68,7 +64,6 @@ class ForgotPasswordActivity : BaseActivity() {
                     }
             }
         }
-        // END
     }
 
 
