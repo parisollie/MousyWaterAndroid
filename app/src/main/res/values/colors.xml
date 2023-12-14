@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!--TODO Step 4: For the best practices color values in the colors.xml file. Here we have updated the theme colors and added few color values which we will be using it later on.-->
-    <!--START-->
     <color name="colorPrimary">#ED2173</color>
     <color name="colorPrimaryDark">#222934</color>
     <color name="colorAccent">#ED2173</color>
@@ -13,4 +11,7 @@
     <color name="colorSecondaryText">#989898</color>
 
     <color name="colorWhite">#FFFFFF</color>
+
+    <color name="colorSnackBarSuccess">#8BC34A</color>
+    <color name="colorSnackBarError">#F72400</color>
 </resources>
