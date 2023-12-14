@@ -6,7 +6,10 @@ import com.pjff.mousywater.R
 import com.pjff.mousywater.databinding.ActivityRegisterBinding
 import android.text.TextUtils
 import android.view.WindowManager
-
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.auth.AuthResult
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 
 
 // TODO Step 5: Replace the AppCompatActivity with BaseActivity to use the common function which we have created in the BaseActivity class.
@@ -40,7 +43,11 @@ class RegisterActivity : BaseActivity() {
 
         binding.btnRegister.setOnClickListener {
 
-            validateRegisterDetails()
+            //validateRegisterDetails()
+            // TODO Step 3: Call the register function.
+            // START
+            registerUser()
+            // END
         }
         // END
     }
@@ -110,9 +117,48 @@ class RegisterActivity : BaseActivity() {
                 false
             }
             else -> {
-                showErrorSnackBar("Your details are valid.", false)
+                //showErrorSnackBar("Your details are valid.", false)
+                //true
+                // TODO Step 4: Remove this success message as we are now validating and registering the user.
                 true
             }
+        }
+    }
+    // END
+
+    // TODO Step 2: Create a function to register the user with email and password using FirebaseAuth.
+    // START
+    /**
+     * A function to register the user with email and password using FirebaseAuth.
+     */
+    private fun registerUser() {
+
+        // Check with validate function if the entries are valid or not.
+        if (validateRegisterDetails()) {
+
+            val email: String = binding.etEmail.text.toString().trim { it <= ' ' }
+            val password: String = binding.etPassword.text.toString().trim { it <= ' ' }
+
+            // Create an instance and create a register a user with email and password.
+            FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(
+                    OnCompleteListener<AuthResult> { task ->
+
+                        // If the registration is successfully done
+                        if (task.isSuccessful) {
+
+                            // Firebase registered user
+                            val firebaseUser: FirebaseUser = task.result!!.user!!
+
+                            showErrorSnackBar(
+                                "You are registered successfully. Your user id is ${firebaseUser.uid}",
+                                false
+                            )
+                        } else {
+                            // If the registering is not successful then show error message.
+                            showErrorSnackBar(task.exception!!.message.toString(), true)
+                        }
+                    })
         }
     }
     // END
