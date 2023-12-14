@@ -1,7 +1,6 @@
 <resources>
     <string name="app_name">MyShopPal</string>
 
-
     <string name="content_description">image</string>
     <string name="title_login">LOGIN</string>
     <string name="et_hint_email_id">Email ID</string>
@@ -23,8 +22,6 @@
     <string name="already_have_an_account">Already have an account?</string>
     <string name="login"><u>Login</u></string>
 
-    <!--TODO Step 7: For the best practices string values in the string.xml file.-->
-    <!--START-->
     <string name="err_msg_enter_first_name">Please enter first name.</string>
     <string name="err_msg_enter_last_name">Please enter last name.</string>
     <string name="err_msg_enter_email">Please enter email.</string>
@@ -33,6 +30,8 @@
     <string name="err_msg_password_and_confirm_password_mismatch">Password and confirm password does not match.</string>
     <string name="err_msg_agree_terms_and_condition">Please agree terms and condition.</string>
 
+    <!--TODO Step 3: For best practice define all the string values in the strings.xml file.-->
+    <!--START-->
+    <string name="please_wait">Please Wait&#8230;</string>
     <!--END-->
-
 </resources>

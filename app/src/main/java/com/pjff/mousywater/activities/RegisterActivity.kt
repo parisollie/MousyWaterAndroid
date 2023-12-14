@@ -136,13 +136,26 @@ class RegisterActivity : BaseActivity() {
         // Check with validate function if the entries are valid or not.
         if (validateRegisterDetails()) {
 
+            // TODO Step 7: Show the progress dialog once you are about to register the user.
+            // START
+            // Show the progress dialog.
+            showProgressDialog(resources.getString(R.string.please_wait))
+            // END
+
             val email: String = binding.etEmail.text.toString().trim { it <= ' ' }
             val password: String = binding.etPassword.text.toString().trim { it <= ' ' }
 
             // Create an instance and create a register a user with email and password.
             FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(
+
                     OnCompleteListener<AuthResult> { task ->
+
+                        // TODO Step 8: Hide the progress dialog once the task is completed.
+                        // START
+                        // Hide the progress dialog
+                        hideProgressDialog()
+                        // END
 
                         // If the registration is successfully done
                         if (task.isSuccessful) {

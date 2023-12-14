@@ -1,10 +1,15 @@
 package com.pjff.mousywater.activities
 
+import android.app.Dialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.WindowManager
 import androidx.core.content.ContextCompat
 import com.google.android.material.snackbar.Snackbar
 import com.pjff.mousywater.R
+import com.pjff.mousywater.databinding.ActivityBaseBinding
+import com.pjff.mousywater.databinding.ActivityRegisterBinding
+import com.pjff.mousywater.databinding.DialogProgressBinding
 
 // TODO Step 3: Create an open class name as BaseActivity and inherits the AppCompatActivity class.
 /**
@@ -13,6 +18,23 @@ import com.pjff.mousywater.R
  */
 // START
 open class BaseActivity : AppCompatActivity() {
+
+    // TODO Step 4: Create a global instance for progress dialog.
+    // START
+    /**
+     * This is a progress dialog instance which we will initialize later on.
+     */
+    private lateinit var mProgressDialog: Dialog
+    // END
+
+    private lateinit var binding: DialogProgressBinding
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = DialogProgressBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+    }
 
     // TODO Step 4: Create a function to show the success and error messages in snack bar component.
     // START
@@ -40,6 +62,38 @@ open class BaseActivity : AppCompatActivity() {
             )
         }
         snackBar.show()
+    }
+    // END
+    // TODO Step 5: Create a function to load and show the progress dialog.
+    // START
+    /**
+     * This function is used to show the progress dialog with the title and message to user.
+     */
+    fun showProgressDialog(text: String) {
+        mProgressDialog = Dialog(this)
+
+        /*Set the screen content from a layout resource.
+        The resource will be inflated, adding all top-level views to the screen.*/
+        mProgressDialog.setContentView(R.layout.dialog_progress)
+
+        binding.tvProgressText.text = text
+        //mProgressDialog.tv_progress_text.text = text
+
+        mProgressDialog.setCancelable(false)
+        mProgressDialog.setCanceledOnTouchOutside(false)
+
+        //Start the dialog and display it on screen.
+        mProgressDialog.show()
+    }
+    // END
+
+    // TODO Step 6: Create a function to hide progress dialog.
+    // START
+    /**
+     * This function is used to dismiss the progress dialog if it is visible to user.
+     */
+    fun hideProgressDialog() {
+        mProgressDialog.dismiss()
     }
     // END
 }
