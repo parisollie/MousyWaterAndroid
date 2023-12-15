@@ -4,12 +4,15 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import com.google.firebase.auth.FirebaseAuth
 import com.pjff.mousywater.R
 import com.pjff.mousywater.databinding.ActivityLoginBinding
-
+import com.pjff.mousywater.firestore.FirestoreClass
+import com.pjff.mousywater.models.User
+import com.pjff.mousywater.utils.Constants
 
 
 /**
@@ -18,7 +21,6 @@ import com.pjff.mousywater.databinding.ActivityLoginBinding
 @Suppress("DEPRECATION")
 class LoginActivity : BaseActivity(), View.OnClickListener {
     private lateinit var binding: ActivityLoginBinding
-
     /**
      * This function is auto created by Android when the Activity Class is created.
      */
@@ -36,14 +38,12 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
             WindowManager.LayoutParams.FLAG_FULLSCREEN
         )
 
-        // START
         // Click event assigned to Forgot Password text.
         binding.tvForgotPassword.setOnClickListener(this)
         // Click event assigned to Login button.
         binding.btnLogin.setOnClickListener(this)
         // Click event assigned to Register text.
         binding.tvRegister.setOnClickListener(this)
-        // END
     }
 
     /**
@@ -111,16 +111,54 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
             FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener { task ->
 
-                    // Hide the progress dialog
-                    hideProgressDialog()
-
                     if (task.isSuccessful) {
-
-                        showErrorSnackBar("You are logged in successfully.", false)
+                        FirestoreClass().getUserDetails(this@LoginActivity)
                     } else {
+                        // Hide the progress dialog
+                        hideProgressDialog()
                         showErrorSnackBar(task.exception!!.message.toString(), true)
                     }
                 }
         }
+    }
+
+    /**
+     * A function to notify user that logged in success and get the user details from the FireStore database after authentication.
+     */
+    /*fun userLoggedInSuccess(user: User) {
+
+        // Hide the progress dialog.
+        hideProgressDialog()
+
+        if (user.profileCompleted == 0) {
+            // If the user profile is incomplete then launch the UserProfileActivity.
+            val intent = Intent(this@LoginActivity, UserProfileActivity::class.java)
+            intent.putExtra(Constants.EXTRA_USER_DETAILS, user)
+            startActivity(intent)
+        } else {
+            // Redirect the user to Dashboard Screen after log in.
+            startActivity(Intent(this@LoginActivity, DashboardActivity::class.java))
+        }
+        finish()
+    }*/
+
+    // TODO Step 7: Create a function to notify user that logged in success and details are fetched from Cloud Firestore.
+    // START
+    /**
+     * A function to notify user that logged in success and get the user details from the FireStore database after authentication.
+     */
+    fun userLoggedInSuccess(user: User) {
+
+        // Hide the progress dialog.
+        hideProgressDialog()
+
+        // Print the user details in the log as of now.
+        Log.i("First Name: ", user.firstName)
+        Log.i("Last Name: ", user.lastName)
+        Log.i("Email: ", user.email)
+
+        // Redirect the user to Main Screen after log in.
+        startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+        finish()
     }
 }
