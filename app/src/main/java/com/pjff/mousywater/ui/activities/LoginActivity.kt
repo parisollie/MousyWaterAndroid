@@ -20,7 +20,7 @@ import com.pjff.mousywater.utils.Constants
  */
 @Suppress("DEPRECATION")
 class LoginActivity : BaseActivity(), View.OnClickListener {
-    private lateinit var binding: ActivityLoginBinding
+    private lateinit var binding:ActivityLoginBinding
     /**
      * This function is auto created by Android when the Activity Class is created.
      */
@@ -33,10 +33,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
 
         // This is used to hide the status bar and make the login screen as a full screen activity.
         // It is deprecated in the API level 30. I will update you with the alternate solution soon.
-        window.setFlags(
-            WindowManager.LayoutParams.FLAG_FULLSCREEN,
-            WindowManager.LayoutParams.FLAG_FULLSCREEN
-        )
+
 
         // Click event assigned to Forgot Password text.
         binding.tvForgotPassword.setOnClickListener(this)
@@ -44,6 +41,8 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         binding.btnLogin.setOnClickListener(this)
         // Click event assigned to Register text.
         binding.tvRegister.setOnClickListener(this)
+
+
     }
 
     /**
@@ -138,36 +137,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         } else {
             // Redirect the user to Dashboard Screen after log in.
             startActivity(Intent(this@LoginActivity, DashboardActivity::class.java))
-            //startActivity(Intent(this@LoginActivity, MainActivity::class.java))
         }
         finish()
     }
-
-    /**
-     * A function to notify user that logged in success and get the user details from the FireStore database after authentication.
-     */
-    /*fun userLoggedInSuccess(user: User) {
-
-        // Hide the progress dialog.
-        hideProgressDialog()
-
-        // Print the user details in the log as of now.
-        Log.i("First Name: ", user.firstName)
-        Log.i("Last Name: ", user.lastName)
-        Log.i("Email: ", user.email)
-
-        // TODO Step 7: Redirect the user to the UserProfile screen if it is incomplete otherwise to the Main screen.
-        // START
-        if (user.profileCompleted == 0) {
-            // If the user profile is incomplete then launch the UserProfileActivity.
-            val intent = Intent(this@LoginActivity, UserProfileActivity::class.java)
-            startActivity(intent)
-        } else {
-            // Redirect the user to Main Screen after log in.
-            startActivity(Intent(this@LoginActivity, MainActivity::class.java))
-        }
-        finish()
-        // END
-    }*/
 }
-

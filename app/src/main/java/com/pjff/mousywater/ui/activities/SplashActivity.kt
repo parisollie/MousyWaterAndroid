@@ -23,8 +23,6 @@ class SplashActivity : AppCompatActivity() {
 
         // Adding the handler to after the a task after some delay.
         // It is deprecated in the API level 30.
-        // Adding the handler to after the a task after some delay.
-        // It is deprecated in the API level 30.
         Handler().postDelayed(
             {
 

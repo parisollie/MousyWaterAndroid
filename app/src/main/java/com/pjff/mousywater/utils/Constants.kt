@@ -6,7 +6,6 @@ import android.net.Uri
 import android.provider.MediaStore
 import android.webkit.MimeTypeMap
 
-//Vid 37
 /**
  * A custom object to declare all the constant values in a single file. The constant values declared here is can be used in whole application.
  */
