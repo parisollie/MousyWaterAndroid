@@ -31,6 +31,9 @@ import java.io.IOException
 /**
  * A user profile screen.
  */
+/**
+ * A user profile screen.
+ */
 class UserProfileActivity : BaseActivity(), View.OnClickListener {
     private lateinit var binding:ActivityUserProfileBinding
     // Instance of User data model class. We will initialize it later on.
@@ -39,10 +42,7 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener {
     // Add a global variable for URI of a selected image from phone storage.
     private var mSelectedImageFileUri: Uri? = null
 
-    // TODO Step 1: Create a global variable for uploaded image URL.
-    // START
     private var mUserProfileImageURL: String = ""
-    // END
 
     /**
      * This function is auto created by Android when the Activity Class is created.
@@ -60,6 +60,7 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener {
         }
 
         // Here, the some of the edittext components are disabled because it is added at a time of Registration.
+
         binding.etFirstName.isEnabled = false
         binding.etFirstName.setText(mUserDetails.firstName)
 
@@ -74,6 +75,8 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener {
 
         // Assign the on click event to the SAVE button.
         binding.btnSubmit.setOnClickListener(this@UserProfileActivity)
+
+
     }
 
     override fun onClick(v: View?) {
@@ -103,15 +106,10 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener {
 
                 R.id.btn_submit -> {
 
-                    // TODO Step 3: Uncomment the code and use the image URL global variable to update the image URL to Firestore. Make the necessary changes.
-
                     if (validateUserProfileDetails()) {
 
-                        // TODO Step 12: Make it common for the both cases.
-                        // START
                         // Show the progress dialog.
                         showProgressDialog(resources.getString(R.string.please_wait))
-                        // END
 
                         if (mSelectedImageFileUri != null) {
 
@@ -121,49 +119,9 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener {
                             )
                         } else {
 
-                            // TODO Step 4: Move this piece of code to the separate function as the profile image is optional. So, if the image is uploaded then we will update the image URL in the firestore.
-                            // START
-                            val userHashMap = HashMap<String, Any>()
-
-                            // Here the field which are not editable needs no update. So, we will update user Mobile Number and Gender for now.
-
-                            // Here we get the text from editText and trim the space
-                            val mobileNumber = binding.etMobileNumber.text.toString().trim { it <= ' ' }
-
-                            val gender = if (binding.rbMale.isChecked) {
-                                Constants.MALE
-                            } else {
-                                Constants.FEMALE
-                            }
-
-                            if (mobileNumber.isNotEmpty()) {
-                                userHashMap[Constants.MOBILE] = mobileNumber.toLong()
-                            }
-
-                            userHashMap[Constants.GENDER] = gender
-
-                            // Show the progress dialog.
-                            showProgressDialog(resources.getString(R.string.please_wait))
-
-                            // call the registerUser function of FireStore class to make an entry in the database.
-                            FirestoreClass().updateUserProfileData(
-                                this@UserProfileActivity,
-                                userHashMap
-                            )
-
-                             /*FirestoreClass().updateUserProfileData(
-                                this, userHashMap
-                            )*/
-
-                            // END
-
-                            // TODO Step 8: Call the user update details function.
-                            // START
                             updateUserProfileDetails()
-                            // END
                         }
                     }
-                    // END
                 }
             }
         }
@@ -263,8 +221,6 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener {
         }
     }
 
-    // TODO Step 5: Create a function to update the user profile details to firestore.
-    // START
     /**
      * A function to update user profile details to the firestore.
      */
@@ -283,12 +239,9 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener {
             Constants.FEMALE
         }
 
-        // TODO Step 7: Now update the profile image field if the image URL is not empty.
-        // START
         if (mUserProfileImageURL.isNotEmpty()) {
             userHashMap[Constants.IMAGE] = mUserProfileImageURL
         }
-        // END
 
         if (mobileNumber.isNotEmpty()) {
             userHashMap[Constants.MOBILE] = mobileNumber.toLong()
@@ -296,10 +249,11 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener {
 
         userHashMap[Constants.GENDER] = gender
 
-        // TODO 11 : Remove the show progress dialog piece of code from here to avoid the jerk hiding and showing it at the same time.
+        // TODO Step 2: Update the field value that the profile is completed.
         // START
-        // Show the progress dialog.
-        /*showProgressDialog(resources.getString(R.string.please_wait))*/
+        // 0: User profile is incomplete.
+        // 1: User profile is completed.
+        userHashMap[Constants.COMPLETE_PROFILE] = 1
         // END
 
         // call the registerUser function of FireStore class to make an entry in the database.
@@ -308,7 +262,6 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener {
             userHashMap
         )
     }
-    // END
 
     /**
      * A function to notify the success result and proceed further accordingly after updating the user details.
@@ -337,20 +290,8 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener {
      */
     fun imageUploadSuccess(imageURL: String) {
 
-        // TODO Step 10: Remove the hide progress dialog code
-        // START
-        // Hide the progress dialog
-        /*hideProgressDialog()*/
-        // END
-
-        // TODO Step 2: Remove the Toast message and assign the value to the global variable.
-        // START
         mUserProfileImageURL = imageURL
-        // END
 
-        // TODO Step 9: Call the user update details function.
-        // START
         updateUserProfileDetails()
-        // END
     }
 }

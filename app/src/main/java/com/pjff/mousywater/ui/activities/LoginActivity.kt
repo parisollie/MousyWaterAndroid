@@ -138,6 +138,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         } else {
             // Redirect the user to Dashboard Screen after log in.
             //startActivity(Intent(this@LoginActivity, DashboardActivity::class.java))
+            startActivity(Intent(this@LoginActivity, MainActivity::class.java))
         }
         finish()
     }
@@ -169,3 +170,4 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         // END
     }*/
 }
+
