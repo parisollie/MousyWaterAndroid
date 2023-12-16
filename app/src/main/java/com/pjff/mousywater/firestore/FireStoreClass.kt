@@ -5,12 +5,14 @@ import com.google.firebase.firestore.FirebaseFirestore
 import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.SetOptions
-import com.pjff.mousywater.activities.RegisterActivity
+import com.pjff.mousywater.ui.activities.RegisterActivity
 import com.pjff.mousywater.models.User
 import com.pjff.mousywater.utils.Constants
 import android.content.Context
 import android.content.SharedPreferences
-import com.pjff.mousywater.activities.LoginActivity
+import com.pjff.mousywater.ui.activities.LoginActivity
+import com.pjff.mousywater.ui.activities.UserProfileActivity
+
 
 /**
  * A custom class where we will add the operation performed for the FireStore database.
@@ -20,8 +22,6 @@ class FirestoreClass {
     // Access a Cloud Firestore instance.
     private val mFireStore = FirebaseFirestore.getInstance()
 
-    // TODO Step 7: Create a function to access the Cloud Firestore and create a collection.
-    // START
     /**
      * A function to make an entry of the registered user in the FireStore database.
      */
@@ -47,10 +47,7 @@ class FirestoreClass {
                 )
             }
     }
-    // END
 
-    // TODO Step 1: Create a function to get the user id of the current logged in user.
-    // START
     /**
      * A function to get the user id of current logged user.
      */
@@ -66,7 +63,6 @@ class FirestoreClass {
 
         return currentUserID
     }
-    // END
 
     /**
      * A function to get the logged user details from from FireStore Database.
@@ -104,23 +100,15 @@ class FirestoreClass {
                         // Call a function of base activity for transferring the result to it.
                         activity.userLoggedInSuccess(user)
                     }
-
-                    /*is SettingsActivity -> {
-                        // Call a function of base activity for transferring the result to it.
-                        activity.userDetailsSuccess(user)
-                    }*/
                 }
             }
             .addOnFailureListener { e ->
                 // Hide the progress dialog if there is any error. And print the error in log.
-                /*when (activity) {
+                when (activity) {
                     is LoginActivity -> {
                         activity.hideProgressDialog()
                     }
-                    is SettingsActivity -> {
-                        activity.hideProgressDialog()
-                    }
-                }*/
+                }
 
                 Log.e(
                     activity.javaClass.simpleName,
@@ -129,6 +117,51 @@ class FirestoreClass {
                 )
             }
     }
+
+
+    // TODO Step 5: Create a function to update user details in the database.
+    // START
+    /**
+     * A function to update the user profile data into the database.
+     *
+     * @param activity The activity is used for identifying the Base activity to which the result is passed.
+     * @param userHashMap HashMap of fields which are to be updated.
+     */
+    fun updateUserProfileData(activity: Activity, userHashMap: HashMap<String, Any>) {
+        // Collection Name
+        mFireStore.collection(Constants.USERS)
+            // Document ID against which the data to be updated. Here the document id is the current logged in user id.
+            .document(getCurrentUserID())
+            // A HashMap of fields which are to be updated.
+            .update(userHashMap)
+            .addOnSuccessListener {
+
+                // TODO Step 9: Notify the success result to the base activity.
+                // START
+                // Notify the success result.
+                when (activity) {
+                    is UserProfileActivity -> {
+                        // Call a function of base activity for transferring the result to it.
+                        activity.userProfileUpdateSuccess()
+                    }
+                }
+                // END
+            }
+            .addOnFailureListener { e ->
+
+                when (activity) {
+                    is UserProfileActivity -> {
+                        // Hide the progress dialog if there is any error. And print the error in log.
+                        activity.hideProgressDialog()
+                    }
+                }
+
+                Log.e(
+                    activity.javaClass.simpleName,
+                    "Error while updating the user details.",
+                    e
+                )
+            }
+    }
+    // END
 }
-
-

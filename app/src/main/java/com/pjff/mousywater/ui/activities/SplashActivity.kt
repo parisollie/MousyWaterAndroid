@@ -1,4 +1,4 @@
-package com.pjff.mousywater.activities
+package com.pjff.mousywater.ui.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

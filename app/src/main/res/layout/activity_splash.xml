@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/img_splash_background"
-    tools:context=".activities.SplashActivity">
+    tools:context=".ui.activities.SplashActivity">
 
     <!--TODO Step 1: Add the id to TextView.-->
     <!--TODO Step 4: Replace the TextView with custom class what we have created as "MSPTextViewBold".-->
