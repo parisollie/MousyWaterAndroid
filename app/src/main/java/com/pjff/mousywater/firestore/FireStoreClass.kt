@@ -14,9 +14,8 @@ import android.net.Uri
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.pjff.mousywater.ui.activities.LoginActivity
+import com.pjff.mousywater.ui.activities.SettingsActivity
 import com.pjff.mousywater.ui.activities.UserProfileActivity
-
-
 
 /**
  * A custom class where we will add the operation performed for the FireStore database.
@@ -104,12 +103,20 @@ class FirestoreClass {
                         // Call a function of base activity for transferring the result to it.
                         activity.userLoggedInSuccess(user)
                     }
+
+                    is SettingsActivity ->{
+                        // Call a function of base activity for transferring the result to it.
+                        activity.userDetailsSuccess(user)
+                    }
                 }
             }
             .addOnFailureListener { e ->
                 // Hide the progress dialog if there is any error. And print the error in log.
                 when (activity) {
                     is LoginActivity -> {
+                        activity.hideProgressDialog()
+                    }
+                    is SettingsActivity -> {
                         activity.hideProgressDialog()
                     }
                 }
@@ -163,8 +170,6 @@ class FirestoreClass {
             }
     }
 
-    // TODO Step 6: Create a function to upload the image to the Cloud Storage.
-    // START
     // A function to upload the image to the cloud storage.
     fun uploadImageToCloudStorage(activity: Activity, imageFileURI: Uri?) {
 
@@ -191,15 +196,12 @@ class FirestoreClass {
                     .addOnSuccessListener { uri ->
                         Log.e("Downloadable Image URL", uri.toString())
 
-                        // TODO Step 8: Pass the success result to base class.
-                        // START
                         // Here call a function of base activity for transferring the result to it.
                         when (activity) {
                             is UserProfileActivity -> {
                                 activity.imageUploadSuccess(uri.toString())
                             }
                         }
-                        // END
                     }
             }
             .addOnFailureListener { exception ->
@@ -218,5 +220,4 @@ class FirestoreClass {
                 )
             }
     }
-    // END
 }
