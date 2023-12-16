@@ -37,6 +37,7 @@ class SplashActivity : AppCompatActivity() {
 
                 if (currentUserID.isNotEmpty()) {
                     // Launch dashboard screen.
+                    //startActivity(Intent(this@SplashActivity, MainActivity::class.java))
                     startActivity(Intent(this@SplashActivity, DashboardActivity::class.java))
                 } else {
                     // Launch the Login Activity
