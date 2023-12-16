@@ -193,5 +193,3 @@ class RegisterActivity : BaseActivity() {
         finish()
     }
 }
-
-
