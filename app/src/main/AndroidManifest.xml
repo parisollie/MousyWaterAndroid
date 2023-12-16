@@ -14,7 +14,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MousyWater"
         tools:targetApi="31">
-
+        <activity
+            android:name=".ui.activities.DashboardActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:label="@string/title_activity_dashboard" />
+        <activity
+            android:name=".ui.activities.SettingsActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activities.UserProfileActivity"
             android:exported="false"
