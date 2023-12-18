@@ -103,20 +103,12 @@ class FirestoreClass {
                         // Call a function of base activity for transferring the result to it.
                         activity.userLoggedInSuccess(user)
                     }
-
-                    is SettingsActivity ->{
-                        // Call a function of base activity for transferring the result to it.
-                        activity.userDetailsSuccess(user)
-                    }
                 }
             }
             .addOnFailureListener { e ->
                 // Hide the progress dialog if there is any error. And print the error in log.
                 when (activity) {
                     is LoginActivity -> {
-                        activity.hideProgressDialog()
-                    }
-                    is SettingsActivity -> {
                         activity.hideProgressDialog()
                     }
                 }
