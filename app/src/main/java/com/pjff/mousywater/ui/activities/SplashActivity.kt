@@ -7,7 +7,7 @@ import android.content.Intent
 import android.os.Handler
 import com.pjff.mousywater.R
 import com.pjff.mousywater.firestore.FirestoreClass
-
+//Bueno
 @Suppress("DEPRECATION")
 class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

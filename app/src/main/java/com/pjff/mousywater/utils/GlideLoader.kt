@@ -8,7 +8,7 @@ import java.io.IOException
 
 
 //Vid 37
-
+//Bueno
 /**
  * A custom object to create a common functions for Glide which can be used in whole application.
  */

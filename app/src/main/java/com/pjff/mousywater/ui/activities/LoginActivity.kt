@@ -14,7 +14,7 @@ import com.pjff.mousywater.firestore.FirestoreClass
 import com.pjff.mousywater.models.User
 import com.pjff.mousywater.utils.Constants
 
-
+//Bueno
 /**
  * Login Screen of the application.
  */
@@ -144,31 +144,5 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         finish()
     }
 
-    /**
-     * A function to notify user that logged in success and get the user details from the FireStore database after authentication.
-     */
-    /*fun userLoggedInSuccess(user: User) {
-
-        // Hide the progress dialog.
-        hideProgressDialog()
-
-        // Print the user details in the log as of now.
-        Log.i("First Name: ", user.firstName)
-        Log.i("Last Name: ", user.lastName)
-        Log.i("Email: ", user.email)
-
-        // TODO Step 7: Redirect the user to the UserProfile screen if it is incomplete otherwise to the Main screen.
-        // START
-        if (user.profileCompleted == 0) {
-            // If the user profile is incomplete then launch the UserProfileActivity.
-            val intent = Intent(this@LoginActivity, UserProfileActivity::class.java)
-            startActivity(intent)
-        } else {
-            // Redirect the user to Main Screen after log in.
-            startActivity(Intent(this@LoginActivity, MainActivity::class.java))
-        }
-        finish()
-        // END
-    }*/
 }
 

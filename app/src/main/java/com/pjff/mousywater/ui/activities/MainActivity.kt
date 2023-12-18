@@ -7,7 +7,7 @@ import com.pjff.mousywater.R
 import com.pjff.mousywater.databinding.ActivityLoginBinding
 import com.pjff.mousywater.databinding.ActivityMainBinding
 import com.pjff.mousywater.utils.Constants
-
+//Bueno
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {

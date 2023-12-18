@@ -10,7 +10,7 @@ import com.pjff.mousywater.R
 import com.pjff.mousywater.databinding.ActivityBaseBinding
 import com.pjff.mousywater.databinding.ActivityRegisterBinding
 import com.pjff.mousywater.databinding.DialogProgressBinding
-
+//Bueno
 // TODO Step 3: Create an open class name as BaseActivity and inherits the AppCompatActivity class.
 /**
  * A base activity class is used to define the functions and members which we will use in all the activities.

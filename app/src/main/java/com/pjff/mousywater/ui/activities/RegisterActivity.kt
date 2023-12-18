@@ -15,7 +15,7 @@ import com.pjff.mousywater.firestore.FirestoreClass
 import com.pjff.mousywater.models.User
 
 //LISTO- FINAL
-
+//Bueno
 @Suppress("DEPRECATION")
 class RegisterActivity : BaseActivity() {
     private lateinit var binding: ActivityRegisterBinding

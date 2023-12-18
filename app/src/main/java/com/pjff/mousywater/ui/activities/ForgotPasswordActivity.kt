@@ -8,7 +8,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.pjff.mousywater.R
 import com.pjff.mousywater.databinding.ActivityForgotPasswordBinding
 
-
+//Bueno
 /**
  * Forgot Password Screen of the application.
  */
