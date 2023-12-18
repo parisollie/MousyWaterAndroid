@@ -6,18 +6,20 @@ import com.pjff.mousywater.R
 import android.content.Intent
 import android.view.View
 import com.google.firebase.auth.FirebaseAuth
+import com.pjff.mousywater.databinding.ActivityLoginBinding
 import com.pjff.mousywater.databinding.ActivitySettingsBinding
 import com.pjff.mousywater.firestore.FirestoreClass
 import com.pjff.mousywater.models.User
 import com.pjff.mousywater.utils.Constants
 import com.pjff.mousywater.utils.GlideLoader
 
-
+//Vid 37
 /**
  * Setting screen of the app.
  */
 class SettingsActivity : BaseActivity(), View.OnClickListener {
-    private lateinit var binding:ActivitySettingsBinding
+
+    private lateinit var binding: ActivitySettingsBinding
     // A variable for user details which will be initialized later on.
     private lateinit var mUserDetails: User
 
@@ -25,7 +27,6 @@ class SettingsActivity : BaseActivity(), View.OnClickListener {
      * This function is auto created by Android when the Activity Class is created.
      */
     override fun onCreate(savedInstanceState: Bundle?) {
-
         //This call the parent constructor
         super.onCreate(savedInstanceState)
         // This is used to align the xml view to this class
@@ -107,7 +108,7 @@ class SettingsActivity : BaseActivity(), View.OnClickListener {
         hideProgressDialog()
 
         // Load the image using the Glide Loader class.
-        GlideLoader(this@SettingsActivity).loadUserPicture(user.image,binding.ivUserPhoto)
+        GlideLoader(this@SettingsActivity).loadUserPicture(user.image,binding.ivUserPhoto )
 
         binding.tvName.text = "${user.firstName} ${user.lastName}"
         binding.tvGender.text = user.gender

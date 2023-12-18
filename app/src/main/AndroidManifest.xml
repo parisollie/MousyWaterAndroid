@@ -15,12 +15,11 @@
         android:theme="@style/Theme.MousyWater"
         tools:targetApi="31">
         <activity
-            android:name=".ui.activities.SettingsActivity"
+            android:name=".ui.activities.DashboardActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.activities.DashboardActivity"
-            android:exported="false"
-            android:label="@string/title_activity_dashboard" />
+            android:name=".ui.activities.SettingsActivity"
+            android:exported="false" />
         <activity
             android:name=".ui.activities.UserProfileActivity"
             android:exported="false"

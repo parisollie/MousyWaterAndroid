@@ -1,52 +1,54 @@
 package com.pjff.mousywater.ui.activities
 
-import android.os.Bundle
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
-import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.navigation.ui.setupWithNavController
+import android.os.Bundle
+import androidx.fragment.app.Fragment
 import com.pjff.mousywater.R
 import com.pjff.mousywater.databinding.ActivityDashboardBinding
+import com.pjff.mousywater.ui.fragments.Home
+import com.pjff.mousywater.ui.fragments.Profile
+import com.pjff.mousywater.ui.fragments.Settings
 
-/**
- *  Dashboard Screen of the app.
- */
-class DashboardActivity : BaseActivity() {
+class DashboardActivity : AppCompatActivity() {
+
+    private lateinit var binding : ActivityDashboardBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_dashboard)
+        binding = ActivityDashboardBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        replaceFragment(Home())
 
-        // Update the background color of the action bar as per our design requirement.
-        supportActionBar!!.setBackgroundDrawable(
-            ContextCompat.getDrawable(
-                this@DashboardActivity,
-                R.drawable.app_gradient_color_background
-            )
-        )
-        // END
+        binding.bottomNavigationView.setOnItemSelectedListener {
 
-        val navView: BottomNavigationView = findViewById(R.id.nav_view)
+            when(it.itemId){
 
-        val navController = findNavController(R.id.nav_host_fragment)
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-        val appBarConfiguration = AppBarConfiguration(
-            setOf(
-                R.id.navigation_products,
-                R.id.navigation_dashboard,
-                R.id.navigation_orders
-            )
-        )
-        setupActionBarWithNavController(navController, appBarConfiguration)
+                R.id.home -> replaceFragment(Home())
+                R.id.profile -> replaceFragment(Profile())
+                R.id.settings -> replaceFragment(Settings())
 
-        navView.setupWithNavController(navController)
+                else ->{
+
+
+
+                }
+
+            }
+
+            true
+
+        }
+
+
     }
 
-    override fun onBackPressed() {
-        doubleBackToExit()
+    private fun replaceFragment(fragment : Fragment){
+
+        val fragmentManager = supportFragmentManager
+        val fragmentTransaction = fragmentManager.beginTransaction()
+        fragmentTransaction.replace(R.id.frame_layout,fragment)
+        fragmentTransaction.commit()
+
+
     }
 }
