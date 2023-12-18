@@ -2,6 +2,7 @@ package com.pjff.mousywater.ui.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.pjff.mousywater.R
 import com.pjff.mousywater.databinding.ActivityDashboardBinding
@@ -19,6 +20,14 @@ class DashboardActivity : AppCompatActivity() {
         binding = ActivityDashboardBinding.inflate(layoutInflater)
         setContentView(binding.root)
         replaceFragment(DashboardFragment())
+        // Update the background color of the action bar as per our design requirement.
+        supportActionBar!!.setBackgroundDrawable(
+            ContextCompat.getDrawable(
+                this@DashboardActivity,
+                R.drawable.app_gradient_color_background
+            )
+        )
+        // END
 
         binding.bottomNavigationView.setOnItemSelectedListener {
 
