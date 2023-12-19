@@ -15,6 +15,23 @@ class AddProductActivity : AppCompatActivity() {
         binding = ActivityAddProductBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        //setupActionBar()
+        setupActionBar()
     }
+    /**
+     * A function for actionBar Setup.
+     */
+    private fun setupActionBar() {
+
+        setSupportActionBar(binding.toolbarAddProductActivity)
+
+        val actionBar = supportActionBar
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true)
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_white_color_back_24dp)
+        }
+
+        binding.toolbarAddProductActivity.setNavigationOnClickListener { onBackPressed() }
+    }
+
+
 }
