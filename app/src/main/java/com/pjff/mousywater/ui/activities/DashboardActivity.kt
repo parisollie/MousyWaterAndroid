@@ -33,9 +33,9 @@ class DashboardActivity : AppCompatActivity() {
 
             when(it.itemId){
 
-                R.id.home -> replaceFragment(DashboardFragment())
-                R.id.profile -> replaceFragment(OrdersFragment())
-                R.id.settings -> replaceFragment(ProductsFragment())
+                R.id.navigation_dashboard -> replaceFragment(DashboardFragment())
+                R.id.navigation_orders -> replaceFragment(OrdersFragment())
+                R.id.navigation_products-> replaceFragment(ProductsFragment())
 
                 else ->{
 

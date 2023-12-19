@@ -12,6 +12,9 @@ tools:context=".ui.activities.DashboardActivity">
     android:layout_height="0dp"
     app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
     app:layout_constraintEnd_toEndOf="parent"
+    android:background="@drawable/app_gradient_color_background"
+    app:itemIconTint="@color/colorWhite"
+    app:itemTextColor="@color/colorWhite"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent">
 

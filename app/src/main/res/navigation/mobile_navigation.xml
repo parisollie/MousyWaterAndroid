@@ -14,7 +14,7 @@
     <fragment
         android:id="@+id/navigation_products"
         android:name="com.pjff.mousywater.ui.fragments.ProductsFragment"
-        android:label="@string/title_products"
+        android:label= "@string/title_products"
         tools:layout="@layout/fragment_dashboard" />
 
     <fragment
