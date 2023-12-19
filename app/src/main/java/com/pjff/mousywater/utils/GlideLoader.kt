@@ -8,14 +8,15 @@ import java.io.IOException
 
 
 //Vid 37
-//Bueno
 /**
  * A custom object to create a common functions for Glide which can be used in whole application.
  */
 class GlideLoader(val context: Context) {
 
+    // TODO Step 8: Update the function definition to load the image using Glide library. Earlier we used to load it from Uri but here it is URL so make the image type as Any. So, if we pass Uri or URL it will load it.
+    // START
     /**
-     * A function to load image from Uri or URL for the user profile picture.
+     * A function to load image from URI for the user profile picture.
      */
     fun loadUserPicture(image: Any, imageView: ImageView) {
         try {
@@ -30,5 +31,5 @@ class GlideLoader(val context: Context) {
             e.printStackTrace()
         }
     }
-
+    // END
 }

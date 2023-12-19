@@ -3,29 +3,21 @@ package com.pjff.mousywater.ui.activities
 import android.app.Dialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
 import android.view.WindowManager
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.google.android.material.snackbar.Snackbar
 import com.pjff.mousywater.R
 import com.pjff.mousywater.databinding.ActivityBaseBinding
 import com.pjff.mousywater.databinding.ActivityRegisterBinding
 import com.pjff.mousywater.databinding.DialogProgressBinding
-//Bueno
-// TODO Step 3: Create an open class name as BaseActivity and inherits the AppCompatActivity class.
+
 /**
  * A base activity class is used to define the functions and members which we will use in all the activities.
  * It inherits the AppCompatActivity class so in other activity class we will replace the AppCompatActivity with BaseActivity.
  */
-// START
 open class BaseActivity : AppCompatActivity() {
-
-    // TODO Step 4: Create a global instance for progress dialog.
-    // START
-    /**
-     * This is a progress dialog instance which we will initialize later on.
-     */
-    private lateinit var mProgressDialog: Dialog
-    // END
 
     private lateinit var binding: DialogProgressBinding
 
@@ -33,11 +25,16 @@ open class BaseActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DialogProgressBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
     }
 
-    // TODO Step 4: Create a function to show the success and error messages in snack bar component.
-    // START
+    // A global variable for double back press feature.
+    private var doubleBackToExitPressedOnce = false
+
+    /**
+     * This is a progress dialog instance which we will initialize later on.
+     */
+    private lateinit var mProgressDialog: Dialog
+
     /**
      * A function to show the success and error messages in snack bar component.
      */
@@ -63,9 +60,7 @@ open class BaseActivity : AppCompatActivity() {
         }
         snackBar.show()
     }
-    // END
-    // TODO Step 5: Create a function to load and show the progress dialog.
-    // START
+
     /**
      * This function is used to show the progress dialog with the title and message to user.
      */
@@ -76,8 +71,8 @@ open class BaseActivity : AppCompatActivity() {
         The resource will be inflated, adding all top-level views to the screen.*/
         mProgressDialog.setContentView(R.layout.dialog_progress)
 
-        binding.tvProgressText.text = text
         //mProgressDialog.tv_progress_text.text = text
+        binding.tvProgressText.text = text
 
         mProgressDialog.setCancelable(false)
         mProgressDialog.setCanceledOnTouchOutside(false)
@@ -85,16 +80,33 @@ open class BaseActivity : AppCompatActivity() {
         //Start the dialog and display it on screen.
         mProgressDialog.show()
     }
-    // END
 
-    // TODO Step 6: Create a function to hide progress dialog.
-    // START
     /**
      * This function is used to dismiss the progress dialog if it is visible to user.
      */
     fun hideProgressDialog() {
         mProgressDialog.dismiss()
     }
-    // END
+
+    /**
+     * A function to implement the double back press feature to exit the app.
+     */
+    fun doubleBackToExit() {
+
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed()
+            return
+        }
+
+        this.doubleBackToExitPressedOnce = true
+
+        Toast.makeText(
+            this,
+            resources.getString(R.string.please_click_back_again_to_exit),
+            Toast.LENGTH_SHORT
+        ).show()
+
+        @Suppress("DEPRECATION")
+        Handler().postDelayed({ doubleBackToExitPressedOnce = false }, 2000)
+    }
 }
-// END
