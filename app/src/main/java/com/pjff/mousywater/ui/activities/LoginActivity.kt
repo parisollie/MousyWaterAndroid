@@ -161,7 +161,8 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         //This call the parent constructor
         super.onCreate(savedInstanceState)
         // This is used to align the xml view to this class
-        setContentView(R.layout.activity_login)
+        binding =  ActivityLoginBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         // This is used to hide the status bar and make the login screen as a full screen activity.
         // It is deprecated in the API level 30. I will update you with the alternate solution soon.
