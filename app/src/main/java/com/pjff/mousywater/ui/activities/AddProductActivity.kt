@@ -1,12 +1,29 @@
 package com.pjff.mousywater.ui.activities
 
+import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import android.Manifest
 import com.pjff.mousywater.R
 import com.pjff.mousywater.databinding.ActivityAddProductBinding
 import com.pjff.mousywater.databinding.ActivitySettingsBinding
+import com.pjff.mousywater.utils.Constants
 
-class AddProductActivity : AppCompatActivity() {
+
+import android.app.Activity
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
+import android.text.TextUtils
+import android.util.Log
+import android.widget.Toast
+import com.pjff.mousywater.utils.GlideLoader
+import java.io.IOException
+
+class AddProductActivity : BaseActivity(), View.OnClickListener {
     private lateinit var binding: ActivityAddProductBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         //This call the parent constructor
@@ -16,6 +33,12 @@ class AddProductActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         setupActionBar()
+
+        // Assign the click event to iv_add_update_product image.
+        binding.ivAddUpdateProduct.setOnClickListener(this)
+
+        // Assign the click event to submit button.
+        binding.btnSubmit.setOnClickListener(this)
     }
     /**
      * A function for actionBar Setup.
@@ -31,6 +54,99 @@ class AddProductActivity : AppCompatActivity() {
         }
 
         binding.toolbarAddProductActivity.setNavigationOnClickListener { onBackPressed() }
+    }
+
+    override fun onClick(v: View?) {
+
+        if (v != null) {
+            when (v.id) {
+                //Manifest.permission.READ_EXTERNAL_STORAGE
+                // The permission code is similar to the user profile image selection.
+                R.id.iv_add_update_product -> {
+                    if (ContextCompat.checkSelfPermission(
+                            this,
+                            Manifest.permission.READ_EXTERNAL_STORAGE
+                        )
+                        == PackageManager.PERMISSION_GRANTED
+                    ) {
+                        Constants.showImageChooser(this@AddProductActivity)
+                    } else {
+                        /*Requests permissions to be granted to this application. These permissions
+                         must be requested in your manifest, they should not be granted to your app,
+                         and they should have protection level*/
+                        ActivityCompat.requestPermissions(
+                            this,
+                            arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
+                            Constants.READ_STORAGE_PERMISSION_CODE
+                        )
+                    }
+                }
+
+                /*R.id.btn_submit -> {
+                    if (validateProductDetails()) {
+
+                        uploadProductImage()
+                    }
+                }*/
+            }
+        }
+    }
+
+
+    /**
+     * This function will identify the result of runtime permission after the user allows or deny permission based on the unique code.
+     *
+     * @param requestCode
+     * @param permissions
+     * @param grantResults
+     */
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == Constants.READ_STORAGE_PERMISSION_CODE) {
+            //If permission is granted
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Constants.showImageChooser(this@AddProductActivity)
+            } else {
+                //Displaying another toast if permission is not granted
+                Toast.makeText(
+                    this,
+                    resources.getString(R.string.read_storage_permission_denied),
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        }
+    }//END
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK)
+            //&& requestCode == Constants.PICK_IMAGE_REQUEST_CODE
+            //&& data!!.data != null)
+             {
+            if(data != null){
+                binding.ivAddUpdateProduct.setImageDrawable(
+                    ContextCompat.getDrawable(this, R.drawable.ic_vector_edit))
+
+                val SelectedImageFileUri = data.data!!
+                try {
+                    // Load the product image in the ImageView.
+                    GlideLoader(this).loadUserPicture(
+                        SelectedImageFileUri,
+                        binding.ivProductImage
+                    )
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                }
+            }
+                 else if(resultCode == Activity.RESULT_CANCELED){
+                     Log.e( "Request canlled", "Image selection cancelled")
+                 }
+
+        }
     }
 
 
