@@ -20,6 +20,7 @@ import android.net.Uri
 import android.text.TextUtils
 import android.util.Log
 import android.widget.Toast
+import com.pjff.mousywater.firestore.FirestoreClass
 import com.pjff.mousywater.utils.GlideLoader
 import java.io.IOException
 
@@ -92,13 +93,45 @@ class AddProductActivity : BaseActivity(), View.OnClickListener {
                 R.id.btn_submit -> {
                     if (validateProductDetails()) {
 
-                        //uploadProductImage()
-                        showErrorSnackBar("Your product detais are valid.", false)
+                        uploadProductImage()
+                        //showErrorSnackBar("Your product detais are valid.", false)
                     }
                 }
             }
         }
-    }
+    }//END
+
+    /**
+     * A function to get the successful result of product image upload.
+     */
+    fun imageUploadSuccess(imageURL: String) {
+
+        hideProgressDialog()
+        // Initialize the global image url variable.
+        //mProductImageURL = imageURL
+
+        //uploadProductDetails()
+        showErrorSnackBar("product image is uploaded. Image URL: $imageURL", false)
+    }//END
+
+    /**
+     * A function to upload the selected product image to firebase cloud storage.
+     */
+    private fun uploadProductImage() {
+
+        showProgressDialog(resources.getString(R.string.please_wait))
+
+        FirestoreClass().uploadImageToCloudStorage(
+            this,
+            mSelectedImageFileUri,
+            Constants.PRODUCT_IMAGE
+        )
+    }//END
+
+
+
+
+
 
 
     /**

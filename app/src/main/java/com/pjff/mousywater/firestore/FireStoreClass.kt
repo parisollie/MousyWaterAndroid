@@ -13,6 +13,7 @@ import android.content.SharedPreferences
 import android.net.Uri
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import com.pjff.mousywater.ui.activities.AddProductActivity
 import com.pjff.mousywater.ui.activities.LoginActivity
 import com.pjff.mousywater.ui.activities.SettingsActivity
 import com.pjff.mousywater.ui.activities.UserProfileActivity
@@ -183,11 +184,11 @@ class FirestoreClass {
     }
 
     // A function to upload the image to the cloud storage.
-    fun uploadImageToCloudStorage(activity: Activity, imageFileURI: Uri?) {
+    fun uploadImageToCloudStorage(activity: Activity, imageFileURI: Uri?, imageType: String) {
 
         //getting the storage reference
         val sRef: StorageReference = FirebaseStorage.getInstance().reference.child(
-            Constants.USER_PROFILE_IMAGE + System.currentTimeMillis() + "."
+            imageType + System.currentTimeMillis() + "."
                     + Constants.getFileExtension(
                 activity,
                 imageFileURI
@@ -213,6 +214,10 @@ class FirestoreClass {
                             is UserProfileActivity -> {
                                 activity.imageUploadSuccess(uri.toString())
                             }
+                            is  AddProductActivity ->{
+                                activity.imageUploadSuccess(uri.toString())
+
+                            }
                         }
                     }
             }
@@ -222,6 +227,10 @@ class FirestoreClass {
                 when (activity) {
                     is UserProfileActivity -> {
                         activity.hideProgressDialog()
+                    }
+                    is  AddProductActivity ->{
+                        activity.hideProgressDialog()
+
                     }
                 }
 

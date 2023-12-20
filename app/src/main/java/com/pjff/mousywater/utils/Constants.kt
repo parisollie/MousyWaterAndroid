@@ -6,17 +6,15 @@ import android.net.Uri
 import android.provider.MediaStore
 import android.webkit.MimeTypeMap
 
-//Vid 37
-//Bueno
 /**
  * A custom object to declare all the constant values in a single file. The constant values declared here is can be used in whole application.
  */
 object Constants {
 
-
     // Firebase Constants
-    // This  is used for the collection name for USERS.
+    // This is used for the collection name for USERS.
     const val USERS: String = "users"
+    const val PRODUCTS: String = "products"
 
     const val MYSHOPPAL_PREFERENCES: String = "MyShopPalPrefs"
     const val LOGGED_IN_USERNAME: String = "logged_in_username"
@@ -40,14 +38,13 @@ object Constants {
     const val IMAGE: String = "image"
     const val COMPLETE_PROFILE: String = "profileCompleted"
 
-    // TODO Step 4: Add the firestore database fields.
-    // START
     const val FIRST_NAME: String = "firstName"
     const val LAST_NAME: String = "lastName"
-    // END
 
-    const val USER_PROFILE_IMAGE:String = "User_Profile_Image"
+    const val USER_ID: String = "user_id"
 
+    const val USER_PROFILE_IMAGE: String = "User_Profile_Image"
+    const val PRODUCT_IMAGE: String = "Product_Image"
 
     /**
      * A function for user profile image selection from phone storage.
