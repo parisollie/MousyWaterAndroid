@@ -24,7 +24,14 @@ import com.pjff.mousywater.utils.GlideLoader
 import java.io.IOException
 
 class AddProductActivity : BaseActivity(), View.OnClickListener {
+    // A global variable for URI of a selected image from phone storage.
+    private var mSelectedImageFileUri: Uri? = null
+
+    // A global variable for uploaded product image URL.
+    private var mProductImageURL: String = ""
+
     private lateinit var binding: ActivityAddProductBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         //This call the parent constructor
         super.onCreate(savedInstanceState)
@@ -82,12 +89,13 @@ class AddProductActivity : BaseActivity(), View.OnClickListener {
                     }
                 }
 
-                /*R.id.btn_submit -> {
+                R.id.btn_submit -> {
                     if (validateProductDetails()) {
 
-                        uploadProductImage()
+                        //uploadProductImage()
+                        showErrorSnackBar("Your product detais are valid.", false)
                     }
-                }*/
+                }
             }
         }
     }
@@ -131,11 +139,12 @@ class AddProductActivity : BaseActivity(), View.OnClickListener {
                 binding.ivAddUpdateProduct.setImageDrawable(
                     ContextCompat.getDrawable(this, R.drawable.ic_vector_edit))
 
-                val SelectedImageFileUri = data.data!!
+                mSelectedImageFileUri = data.data!!
+
                 try {
                     // Load the product image in the ImageView.
                     GlideLoader(this).loadUserPicture(
-                        SelectedImageFileUri,
+                        mSelectedImageFileUri!!,
                         binding.ivProductImage
                     )
                 } catch (e: IOException) {
@@ -145,9 +154,52 @@ class AddProductActivity : BaseActivity(), View.OnClickListener {
                  else if(resultCode == Activity.RESULT_CANCELED){
                      Log.e( "Request canlled", "Image selection cancelled")
                  }
-
         }
-    }
+    }//END
+
+    /**
+     * A function to validate the product details.
+     */
+    private fun validateProductDetails(): Boolean {
+        return when {
+
+            mSelectedImageFileUri == null -> {
+                showErrorSnackBar(resources.getString(R.string.err_msg_select_product_image), true)
+                false
+            }
+
+            TextUtils.isEmpty(binding.etProductTitle.text.toString().trim { it <= ' ' }) -> {
+                showErrorSnackBar(resources.getString(R.string.err_msg_enter_product_title), true)
+                false
+            }
+
+            TextUtils.isEmpty(binding.etProductPrice.text.toString().trim { it <= ' ' }) -> {
+                showErrorSnackBar(resources.getString(R.string.err_msg_enter_product_price), true)
+                false
+            }
+
+            TextUtils.isEmpty(binding.etProductDescription.text.toString().trim { it <= ' ' }) -> {
+                showErrorSnackBar(
+                    resources.getString(R.string.err_msg_enter_product_description),
+                    true
+                )
+                false
+            }
+
+            TextUtils.isEmpty(binding.etProductQuantity.text.toString().trim { it <= ' ' }) -> {
+                showErrorSnackBar(
+                    resources.getString(R.string.err_msg_enter_product_quantity),
+                    true
+                )
+                false
+            }
+            else -> {
+                true
+            }
+        }
+    }//END
+
+
 
 
 }
