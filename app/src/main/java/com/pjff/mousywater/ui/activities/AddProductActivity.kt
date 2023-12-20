@@ -21,6 +21,7 @@ import android.text.TextUtils
 import android.util.Log
 import android.widget.Toast
 import com.pjff.mousywater.firestore.FirestoreClass
+import com.pjff.mousywater.models.Product
 import com.pjff.mousywater.utils.GlideLoader
 import java.io.IOException
 
@@ -102,16 +103,54 @@ class AddProductActivity : BaseActivity(), View.OnClickListener {
     }//END
 
     /**
+     * A function to return the successful result of Product upload.
+     */
+    fun productUploadSuccess() {
+
+        // Hide the progress dialog
+        hideProgressDialog()
+
+        Toast.makeText(
+            this@AddProductActivity,
+            resources.getString(R.string.product_uploaded_success_message),
+            Toast.LENGTH_SHORT
+        ).show()
+
+        finish()
+    }//END
+
+    /**
      * A function to get the successful result of product image upload.
      */
     fun imageUploadSuccess(imageURL: String) {
 
-        hideProgressDialog()
+        //hideProgressDialog()
         // Initialize the global image url variable.
-        //mProductImageURL = imageURL
+        mProductImageURL = imageURL
 
-        //uploadProductDetails()
-        showErrorSnackBar("product image is uploaded. Image URL: $imageURL", false)
+        uploadProductDetails()
+        //showErrorSnackBar("product image is uploaded. Image URL: $imageURL", false)
+    }//END
+
+    private fun uploadProductDetails() {
+
+        // Get the logged in username from the SharedPreferences that we have stored at a time of login.
+        val username =
+            this.getSharedPreferences(Constants.MYSHOPPAL_PREFERENCES, Context.MODE_PRIVATE)
+                .getString(Constants.LOGGED_IN_USERNAME, "")!!
+
+        // Here we get the text from editText and trim the space
+        val product = Product(
+            FirestoreClass().getCurrentUserID(),
+            username,
+            binding.etProductTitle.text.toString().trim { it <= ' ' },
+            binding.etProductPrice.text.toString().trim { it <= ' ' },
+            binding.etProductDescription.text.toString().trim { it <= ' ' },
+            binding.etProductQuantity.text.toString().trim { it <= ' ' },
+            mProductImageURL
+        )
+
+        FirestoreClass().uploadProductDetails(this, product)
     }//END
 
     /**

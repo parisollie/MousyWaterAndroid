@@ -13,6 +13,7 @@ import android.content.SharedPreferences
 import android.net.Uri
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import com.pjff.mousywater.models.Product
 import com.pjff.mousywater.ui.activities.AddProductActivity
 import com.pjff.mousywater.ui.activities.LoginActivity
 import com.pjff.mousywater.ui.activities.SettingsActivity
@@ -240,5 +241,36 @@ class FirestoreClass {
                     exception
                 )
             }
-    }
+    }//END
+
+    /**
+     * A function to make an entry of the user's product in the cloud firestore database.
+     */
+    fun uploadProductDetails(activity: AddProductActivity, productInfo: Product) {
+
+        mFireStore.collection(Constants.PRODUCTS)
+            .document()
+            // Here the userInfo are Field and the SetOption is set to merge. It is for if we wants to merge
+            .set(productInfo, SetOptions.merge())
+            .addOnSuccessListener {
+
+                // Here call a function of base activity for transferring the result to it.
+                activity.productUploadSuccess()
+            }
+            .addOnFailureListener { e ->
+
+                activity.hideProgressDialog()
+
+                Log.e(
+                    activity.javaClass.simpleName,
+                    "Error while uploading the product details.",
+                    e
+                )
+            }
+    }//END
+
+
+
+
+
 }
