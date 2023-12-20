@@ -10,7 +10,7 @@ import android.Manifest
 import com.pjff.mousywater.R
 import com.pjff.mousywater.databinding.ActivityAddProductBinding
 import com.pjff.mousywater.databinding.ActivitySettingsBinding
-import com.pjff.mousywater.utils.Constants
+
 
 
 import android.app.Activity
@@ -22,6 +22,7 @@ import android.util.Log
 import android.widget.Toast
 import com.pjff.mousywater.firestore.FirestoreClass
 import com.pjff.mousywater.models.Product
+import com.pjff.mousywater.utils.Constants
 import com.pjff.mousywater.utils.GlideLoader
 import java.io.IOException
 
