@@ -22,6 +22,11 @@ open class DashboardItemsListAdapter(
     private var list: ArrayList<Product>,
     private val fragment: DashboardFragment
 ) : RecyclerView.Adapter<DashboardItemsListAdapter.ViewHolder>() {
+    // TODO Step 2: Create a global variable for OnClickListener interface.
+    // START
+    // A global variable for OnClickListener interface.
+    private var onClickListener: OnClickListener? = null
+    // END
     class ViewHolder( val binding: ItemDashboardLayoutBinding): RecyclerView.ViewHolder(binding.root){
 
         val ivItemImage = binding.ivDashboardItemImage
@@ -67,6 +72,15 @@ open class DashboardItemsListAdapter(
 
         GlideLoader(context).loadProductPicture(model.image, holder.ivItemImage)
 
+        // TODO Step 5: Assign the on click event for item view and pass the required params in the on click function.
+        // START
+        holder.ivItemImage.setOnClickListener {
+            if (onClickListener != null) {
+                onClickListener!!.onClick(position, model)
+            }
+        }
+        // END
+
     }
 
     /**
@@ -74,5 +88,31 @@ open class DashboardItemsListAdapter(
      */
 
     override fun getItemCount(): Int = list.size
+
+    // TODO Step 3: Create A function for OnClickListener where the Interface is the expected parameter and assigned to the global variable.
+    // START
+    /**
+     * A function for OnClickListener where the Interface is the expected parameter and assigned to the global variable.
+     *
+     * @param onClickListener
+     */
+    fun setOnClickListener(onClickListener: OnClickListener) {
+        this.onClickListener = onClickListener
+    }
+    // END
+
+
+    // TODO Step 1: Create an interface for OnClickListener.
+    /**
+     * An interface for onclick items.
+     */
+    interface OnClickListener {
+
+        // TODO Step 4: Define a function to get the required params when user clicks on the item view in the interface.
+        // START
+        fun onClick(position: Int, product: Product)
+        // END
+    }
+    // END
 
 }
