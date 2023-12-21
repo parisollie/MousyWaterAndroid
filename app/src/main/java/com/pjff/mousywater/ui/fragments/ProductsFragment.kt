@@ -108,11 +108,11 @@ class ProductsFragment : BaseFragment() {
         // START
         // Here we will call the delete function of the FirestoreClass. But, for now lets display the Toast message and call this function from adapter class.
 
-        /*Toast.makeText(
+        Toast.makeText(
             requireActivity(),
             "You can now delete the product. $productID",
             Toast.LENGTH_SHORT
-        ).show()*/
+        ).show()
 
         showAlertDialogToDeleteProduct(productID)
         // END

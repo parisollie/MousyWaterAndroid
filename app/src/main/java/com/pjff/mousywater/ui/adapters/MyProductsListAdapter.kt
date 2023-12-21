@@ -24,6 +24,7 @@ open class MyProductsListAdapter(
     class ViewHolder( val binding: ItemListLayoutBinding): RecyclerView.ViewHolder(binding.root){
 
         val ivItemImage = binding.ivItemImage
+        val  ibDeleteProduct = binding.ibDeleteProduct
 
         fun bind(product: Product){
             with(binding){
@@ -64,6 +65,14 @@ open class MyProductsListAdapter(
         val model = list[position]
 
         GlideLoader(context).loadProductPicture(model.image, holder.ivItemImage)
+
+        holder.ibDeleteProduct.setOnClickListener {
+
+            // TODO Step 8: Now let's call the delete function of the ProductsFragment.
+            // START
+            fragment.deleteProduct(model.product_id)
+            // END
+        }
 
     }
 
