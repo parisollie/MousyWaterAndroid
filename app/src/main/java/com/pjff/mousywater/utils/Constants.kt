@@ -8,6 +8,10 @@ import android.webkit.MimeTypeMap
 /**
  * A custom object to declare all the constant values in a single file. The constant values declared here is can be used in whole application.
  */
+
+/**
+ * A custom object to declare all the constant values in a single file. The constant values declared here is can be used in whole application.
+ */
 object Constants {
 
     // Firebase Constants
@@ -20,6 +24,11 @@ object Constants {
 
     // Intent extra constants.
     const val EXTRA_USER_DETAILS: String = "extra_user_details"
+
+    // TODO Step 3: Declare a constant variable for passing the product id to product details screen through intent.
+    // START
+    const val EXTRA_PRODUCT_ID: String = "extra_product_id"
+    // END
 
     //A unique code for asking the Read Storage Permission using this we will be check and identify in the method onRequestPermissionsResult in the Base Activity.
     const val READ_STORAGE_PERMISSION_CODE = 2

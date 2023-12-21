@@ -6,7 +6,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.pjff.mousywater.databinding.ItemListLayoutBinding
 import com.pjff.mousywater.models.Product
 import android.content.Context
+import android.content.Intent
+import com.pjff.mousywater.ui.activities.ProductDetailActivity
 import com.pjff.mousywater.ui.fragments.ProductsFragment
+import com.pjff.mousywater.utils.Constants
 import com.pjff.mousywater.utils.GlideLoader
 
 
@@ -64,7 +67,9 @@ open class MyProductsListAdapter(
         holder.bind(list[position])
         val model = list[position]
 
-        GlideLoader(context).loadProductPicture(model.image, holder.ivItemImage)
+
+
+        GlideLoader(context).loadProductPicture(model.image,holder.ivItemImage)
 
         holder.ibDeleteProduct.setOnClickListener {
 
@@ -72,7 +77,20 @@ open class MyProductsListAdapter(
             // START
             fragment.deleteProduct(model.product_id)
             // END
+
         }
+
+        // TODO Step 6: Assign the on click even to the ItemView on launch the product details screen.
+        // START
+        holder.ivItemImage.setOnClickListener {
+            // Launch Product details screen.
+            val intent = Intent(context, ProductDetailActivity::class.java)
+            // TODO Step 4: Pass the product id to the product details screen through intent.
+            // START
+            intent.putExtra(Constants.EXTRA_PRODUCT_ID, model.product_id)
+            context.startActivity(intent)
+        }
+        // END
 
     }
 

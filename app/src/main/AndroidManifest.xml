@@ -15,9 +15,14 @@
         android:theme="@style/Theme.MousyWater"
         tools:targetApi="31">
         <activity
+            android:name=".ui.activities.ProductDetailActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
             android:name=".ui.activities.AddProductActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.activities.DashboardActivity"
             android:exported="false"
@@ -41,7 +46,7 @@
             android:name=".ui.activities.RegisterActivity"
             android:exported="false"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.activities.SplashActivity"
             android:exported="true"

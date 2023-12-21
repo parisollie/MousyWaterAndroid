@@ -17,6 +17,7 @@ import com.google.firebase.storage.StorageReference
 import com.pjff.mousywater.models.Product
 import com.pjff.mousywater.ui.activities.AddProductActivity
 import com.pjff.mousywater.ui.activities.LoginActivity
+import com.pjff.mousywater.ui.activities.ProductDetailActivity
 import com.pjff.mousywater.ui.activities.SettingsActivity
 import com.pjff.mousywater.ui.activities.UserProfileActivity
 import com.pjff.mousywater.ui.fragments.DashboardFragment
@@ -368,4 +369,43 @@ class FirestoreClass {
             }
     }
     // END
+
+    // TODO Step 2: Create a function to get the product details based on the product id.
+    // START
+    /**
+     * A function to get the product details based on the product id.
+     */
+    fun getProductDetails(activity: ProductDetailActivity, productId: String) {
+
+        // The collection name for PRODUCTS
+        mFireStore.collection(Constants.PRODUCTS)
+            .document(productId)
+            .get() // Will get the document snapshots.
+            .addOnSuccessListener { document ->
+
+                // Here we get the product details in the form of document.
+                Log.e(activity.javaClass.simpleName, document.toString())
+
+                // Convert the snapshot to the object of Product data model class.
+                val product = document.toObject(Product::class.java)!!
+
+                // TODO Step 4: Notify the success result.
+                // START
+                activity.productDetailsSuccess(product)
+                // END
+            }
+            .addOnFailureListener { e ->
+
+                // Hide the progress dialog if there is an error.
+                activity.hideProgressDialog()
+
+                Log.e(activity.javaClass.simpleName, "Error while getting the product details.", e)
+            }
+    }
+    // END
+
+
+
+
+
 }
