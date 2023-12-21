@@ -10,15 +10,20 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.recyclerview.widget.GridLayoutManager
 import com.pjff.mousywater.R
+import com.pjff.mousywater.databinding.FragmentDashboardBinding
+import com.pjff.mousywater.databinding.FragmentProductsBinding
+import com.pjff.mousywater.models.Product
 import com.pjff.mousywater.ui.activities.SettingsActivity
+import com.pjff.mousywater.ui.adapters.DashboardItemsListAdapter
 
 
-
-
-class DashboardFragment : Fragment() {
+class DashboardFragment : BaseFragment() {
 
     //private lateinit var binding:
+    private var _binding: FragmentDashboardBinding? = null
+    private val binding get() = _binding!!
 
     // TODO Step 5: Override the onCreate function and add the piece of code to inflate the option menu in fragment.
     // START
@@ -35,10 +40,22 @@ class DashboardFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        val root = inflater.inflate(R.layout.fragment_dashboard, container, false)
-        val textView: TextView = root.findViewById(R.id.text_dashboard)
-        textView.text = "This is dashboard Fragment"
-        return root
+
+        _binding = FragmentDashboardBinding.inflate(inflater,container,false)
+        val root = inflater.inflate(R.layout.fragment_products, container, false)
+        //val textView: TextView = root.findViewById(R.id.tv_no_products_found)
+        //textView.text = "This is dashboard Products"
+        return binding.root
+
+
+
+    }
+
+
+    override fun onResume() {
+        super.onResume()
+
+        //getDashboardItemsList()
     }
 
     // TODO Step 6: Override the onCreateOptionMenu function and inflate the Dashboard menu file init.
@@ -48,6 +65,8 @@ class DashboardFragment : Fragment() {
         super.onCreateOptionsMenu(menu, inflater)
     }
     // END
+
+
 
     // TODO Step 7: Override the onOptionItemSelected function and handle the action items init.
     // START
@@ -68,4 +87,38 @@ class DashboardFragment : Fragment() {
         return super.onOptionsItemSelected(item)
     }
     // END
+
+    /**
+     * A function to get the success result of the dashboard items from cloud firestore.
+     *
+     * @param dashboardItemsList
+     */
+    fun successDashboardItemsList(dashboardItemsList: ArrayList<Product>) {
+
+        // Hide the progress dialog.
+        hideProgressDialog()
+
+        if (dashboardItemsList.size > 0) {
+
+            binding.rvDashboardItems.visibility = View.VISIBLE
+            binding.tvNoDashboardItemsFound.visibility = View.GONE
+
+            binding.rvDashboardItems.layoutManager = GridLayoutManager(activity, 2)
+            binding.rvDashboardItems.setHasFixedSize(true)
+
+            /*val adapter = DashboardItemsListAdapter(requireActivity(), dashboardItemsList)
+            binding.rvDashboardItems.adapter = adapter*/
+        } else {
+            binding.rvDashboardItems.visibility = View.GONE
+            binding.tvNoDashboardItemsFound.visibility = View.VISIBLE
+        }
+    }//end
+
+
+
+
+
+
+
+
 }

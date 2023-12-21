@@ -19,6 +19,7 @@ import com.pjff.mousywater.ui.activities.AddProductActivity
 import com.pjff.mousywater.ui.activities.LoginActivity
 import com.pjff.mousywater.ui.activities.SettingsActivity
 import com.pjff.mousywater.ui.activities.UserProfileActivity
+import com.pjff.mousywater.ui.fragments.DashboardFragment
 import com.pjff.mousywater.ui.fragments.ProductsFragment
 import com.pjff.mousywater.utils.Constants
 
@@ -307,7 +308,7 @@ class FirestoreClass {
     /**
      * A function to get the dashboard items list. The list will be an overall items list, not based on the user's id.
      */
-    /*fun getDashboardItemsList(fragment: DashboardFragment) {
+    fun getDashboardItemsList(fragment: DashboardFragment) {
         // The collection name for PRODUCTS
         mFireStore.collection(Constants.PRODUCTS)
             .get() // Will get the documents snapshots.
@@ -335,7 +336,7 @@ class FirestoreClass {
                 fragment.hideProgressDialog()
                 Log.e(fragment.javaClass.simpleName, "Error while getting dashboard items list.", e)
             }
-    }*/
+    }
 
     // TODO Step 1: Create a function to delete the product from the cloud firestore.
     /**
