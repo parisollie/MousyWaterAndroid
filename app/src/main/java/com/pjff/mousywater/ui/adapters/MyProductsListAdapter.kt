@@ -23,13 +23,11 @@ open class MyProductsListAdapter(
 
     class ViewHolder( val binding: ItemListLayoutBinding): RecyclerView.ViewHolder(binding.root){
 
-        val iv_item_image = binding.ivItemImage
-
-
+        val ivItemImage = binding.ivItemImage
         fun bind(product: Product){
             with(binding){
                 //estos son nuestros textview
-                tvItemPrice.text = product.price
+
 
                 binding.apply {
                     //tvTitle , es como se llaman nuestras etiquetas
@@ -55,6 +53,28 @@ open class MyProductsListAdapter(
         val model = list[position]
 
         //GlideLoader(context).loadProductPicture(model.image, binding.ivItemImage)
+
+
+        //val song = songs[position]
+
+        //holder.bind(song)
+
+        var image: ByteArray? = null
+
+
+
+        //Sino tengo imagen la importo
+        if(image != null){
+            GlideLoader(context).loadProductPicture(model.image, holder.ivItemImage)
+            /*Glide.with(holder.itemView.context).asBitmap()
+                .load(image)
+                .into(holder.ivItemImage)*/
+        }else{
+            holder.ivItemImage.setImageResource(R.drawable.ic_vector_edit)
+        }
+
+
+
 
 
 
