@@ -20,7 +20,7 @@ import com.pjff.mousywater.firestore.FirestoreClass
 import com.pjff.mousywater.models.Product
 import com.pjff.mousywater.ui.activities.AddProductActivity
 import com.pjff.mousywater.ui.activities.SettingsActivity
-
+import com.pjff.mousywater.ui.adapters.MyProductsListAdapter
 /**
  * A products fragment.
  */
@@ -106,9 +106,9 @@ class ProductsFragment : BaseFragment() {
             binding.rvMyProductItems.layoutManager = LinearLayoutManager(activity)
             binding.rvMyProductItems.setHasFixedSize(true)
 
-            /*val adapterProducts =
+            val adapterProducts =
                 MyProductsListAdapter(requireActivity(), productsList, this@ProductsFragment)
-            binding.rvMyProductItems.adapter = adapterProducts*/
+            binding.rvMyProductItems.adapter = adapterProducts
         } else {
             binding.rvMyProductItems.visibility = View.GONE
             binding.tvNoProductsFound.visibility = View.VISIBLE
