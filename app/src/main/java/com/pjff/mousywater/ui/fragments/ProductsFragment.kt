@@ -2,15 +2,12 @@ package com.pjff.mousywater.ui.fragments
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,7 +16,6 @@ import com.pjff.mousywater.databinding.FragmentProductsBinding
 import com.pjff.mousywater.firestore.FirestoreClass
 import com.pjff.mousywater.models.Product
 import com.pjff.mousywater.ui.activities.AddProductActivity
-import com.pjff.mousywater.ui.activities.SettingsActivity
 import com.pjff.mousywater.ui.adapters.MyProductsListAdapter
 /**
  * A products fragment.
@@ -30,22 +26,10 @@ class ProductsFragment : BaseFragment() {
 
     private val binding get () = _binding !!
 
-    //private lateinit var mRootView: View
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
     }
-
-    /*override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        mRootView = inflater.inflate(R.layout.fragment_products, container, false)
-        return mRootView
-    }*/
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -55,8 +39,6 @@ class ProductsFragment : BaseFragment() {
 
         _binding = FragmentProductsBinding.inflate(inflater,container,false)
         val root = inflater.inflate(R.layout.fragment_products, container, false)
-        //val textView: TextView = root.findViewById(R.id.tv_no_products_found)
-        //textView.text = "This is dashboard Products"
         return binding.root
     }
 

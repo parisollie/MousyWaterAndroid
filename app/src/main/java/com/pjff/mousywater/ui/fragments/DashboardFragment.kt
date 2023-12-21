@@ -2,18 +2,16 @@ package com.pjff.mousywater.ui.fragments
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.GridLayoutManager
 import com.pjff.mousywater.R
 import com.pjff.mousywater.databinding.FragmentDashboardBinding
-import com.pjff.mousywater.databinding.FragmentProductsBinding
+import com.pjff.mousywater.firestore.FirestoreClass
 import com.pjff.mousywater.models.Product
 import com.pjff.mousywater.ui.activities.SettingsActivity
 import com.pjff.mousywater.ui.adapters.DashboardItemsListAdapter
@@ -21,18 +19,14 @@ import com.pjff.mousywater.ui.adapters.DashboardItemsListAdapter
 
 class DashboardFragment : BaseFragment() {
 
-    //private lateinit var binding:
-    private var _binding: FragmentDashboardBinding? = null
-    private val binding get() = _binding!!
+    private var _binding:FragmentDashboardBinding?= null
 
-    // TODO Step 5: Override the onCreate function and add the piece of code to inflate the option menu in fragment.
-    // START
+    private val binding get () = _binding !!
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // If we want to use the option menu in fragment we need to add it.
         setHasOptionsMenu(true)
     }
-    // END
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,36 +34,17 @@ class DashboardFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-
         _binding = FragmentDashboardBinding.inflate(inflater,container,false)
-        val root = inflater.inflate(R.layout.fragment_products, container, false)
-        //val textView: TextView = root.findViewById(R.id.tv_no_products_found)
-        //textView.text = "This is dashboard Products"
+        val root = inflater.inflate(R.layout.fragment_dashboard, container, false)
         return binding.root
-
-
-
     }
 
 
-    override fun onResume() {
-        super.onResume()
-
-        //getDashboardItemsList()
-    }
-
-    // TODO Step 6: Override the onCreateOptionMenu function and inflate the Dashboard menu file init.
-    // START
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.dashboard_menu, menu)
         super.onCreateOptionsMenu(menu, inflater)
     }
-    // END
 
-
-
-    // TODO Step 7: Override the onOptionItemSelected function and handle the action items init.
-    // START
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val id = item.itemId
 
@@ -77,16 +52,28 @@ class DashboardFragment : BaseFragment() {
 
             R.id.action_settings -> {
 
-                // TODO Step 9: Launch the SettingActivity on click of action item.
-                // START
                 startActivity(Intent(activity, SettingsActivity::class.java))
-                // END
                 return true
             }
         }
         return super.onOptionsItemSelected(item)
     }
-    // END
+
+    override fun onResume() {
+        super.onResume()
+
+        getDashboardItemsList()
+    }
+
+    /**
+     * A function to get the dashboard items list from cloud firestore.
+     */
+    private fun getDashboardItemsList() {
+        // Show the progress dialog.
+        showProgressDialog(resources.getString(R.string.please_wait))
+
+        FirestoreClass().getDashboardItemsList(this@DashboardFragment)
+    }
 
     /**
      * A function to get the success result of the dashboard items from cloud firestore.
@@ -106,19 +93,20 @@ class DashboardFragment : BaseFragment() {
             binding.rvDashboardItems.layoutManager = GridLayoutManager(activity, 2)
             binding.rvDashboardItems.setHasFixedSize(true)
 
-            /*val adapter = DashboardItemsListAdapter(requireActivity(), dashboardItemsList)
-            binding.rvDashboardItems.adapter = adapter*/
+            val adapter = DashboardItemsListAdapter(requireActivity(), dashboardItemsList ,this@DashboardFragment)
+            binding.rvDashboardItems.adapter = adapter
         } else {
             binding.rvDashboardItems.visibility = View.GONE
             binding.tvNoDashboardItemsFound.visibility = View.VISIBLE
         }
     }//end
 
-
-
-
-
-
-
-
 }
+
+
+
+
+
+
+
+
