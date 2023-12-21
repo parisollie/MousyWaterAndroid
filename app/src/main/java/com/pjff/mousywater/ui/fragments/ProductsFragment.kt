@@ -162,7 +162,7 @@ class ProductsFragment : BaseFragment() {
             showProgressDialog(resources.getString(R.string.please_wait))
 
             // Call the function of Firestore class.
-            //FirestoreClass().deleteProduct(this@ProductsFragment, productID)
+            FirestoreClass().deleteProduct(this@ProductsFragment, productID)
             // END
 
             dialogInterface.dismiss()
