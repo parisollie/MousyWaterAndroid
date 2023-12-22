@@ -62,6 +62,7 @@ class ProductDetailActivity : BaseActivity() , View.OnClickListener{
         // START
         if (FirestoreClass().getCurrentUserID() == productOwnerId) {
             binding.btnAddToCart.visibility = View.GONE
+            binding.btnGoToCart.visibility = View.GONE
         } else {
             binding.btnAddToCart.visibility = View.VISIBLE
         } // END
@@ -69,6 +70,7 @@ class ProductDetailActivity : BaseActivity() , View.OnClickListener{
         // TODO Step 3: Assign the onClick event to the add to cart button.
         // START
         binding.btnAddToCart.setOnClickListener(this)
+        binding.btnGoToCart.setOnClickListener(this)
         // END
 
         // TODO Step 6: Call the function to get the product details when the activity is launched.
@@ -111,7 +113,7 @@ class ProductDetailActivity : BaseActivity() , View.OnClickListener{
         // END
 
         // Hide Progress dialog.
-        hideProgressDialog()
+        //hideProgressDialog()
 
         // Populate the product details in the UI.
         GlideLoader(this@ProductDetailActivity).loadProductPicture(
@@ -123,6 +125,18 @@ class ProductDetailActivity : BaseActivity() , View.OnClickListener{
         binding.tvProductDetailsPrice.text = "$${product.price}"
         binding.tvProductDetailsDescription.text = product.description
         binding.tvProductDetailsQuantity.text = product.stock_quantity
+
+
+        // TODO Step 9: Call the function to check the product exist in the cart or not from the firestore class.
+        // START
+        // There is no need to check the cart list if the product owner himself is seeing the product details.
+        if (FirestoreClass().getCurrentUserID() == product.user_id) {
+            // Hide Progress dialog.
+            hideProgressDialog()
+        } else {
+            FirestoreClass().checkIfItemExistInCart(this@ProductDetailActivity, mProductId)
+        }
+        // END
     }
     // END
 
@@ -165,12 +179,6 @@ class ProductDetailActivity : BaseActivity() , View.OnClickListener{
         // END
     } // END
 
-
-
-
-
-
-
     override fun onClick(v: View?) {
         // TODO Step 9: Handle the click event of the Add to cart button and call the addToCart function.
         // START
@@ -197,6 +205,27 @@ class ProductDetailActivity : BaseActivity() , View.OnClickListener{
             resources.getString(R.string.success_message_item_added_to_cart),
             Toast.LENGTH_SHORT
         ).show()
+
+        binding.btnAddToCart.visibility = View.GONE
+        binding.btnGoToCart.visibility = View.VISIBLE
+    }
+    // END
+
+
+    // TODO Step 7: Create a function to notify the success result of item exists in the cart.
+    // START
+    /**
+     * A function to notify the success result of item exists in the cart.
+     */
+    fun productExistsInCart() {
+
+        // Hide the progress dialog.
+        hideProgressDialog()
+
+        // Hide the AddToCart button if the item is already in the cart.
+        binding.btnAddToCart.visibility = View.GONE
+        // Show the GoToCart button if the item is already in the cart. User can update the quantity from the cart list screen if he wants.
+        binding.btnGoToCart.visibility = View.VISIBLE
     }
     // END
 
