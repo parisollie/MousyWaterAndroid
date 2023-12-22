@@ -13,6 +13,7 @@ import com.pjff.mousywater.R
 import com.pjff.mousywater.databinding.FragmentDashboardBinding
 import com.pjff.mousywater.firestore.FirestoreClass
 import com.pjff.mousywater.models.Product
+import com.pjff.mousywater.ui.activities.CartListActivity
 import com.pjff.mousywater.ui.activities.ProductDetailActivity
 import com.pjff.mousywater.ui.activities.SettingsActivity
 import com.pjff.mousywater.ui.adapters.DashboardItemsListAdapter
@@ -57,6 +58,16 @@ class DashboardFragment : BaseFragment() {
                 startActivity(Intent(activity, SettingsActivity::class.java))
                 return true
             }
+
+            // TODO Step 9: Handle the click event of Cart action item.
+            // START
+            R.id.action_cart -> {
+                startActivity(Intent(activity, CartListActivity::class.java))
+                return true
+            }
+            // END
+
+
         }
         return super.onOptionsItemSelected(item)
     }

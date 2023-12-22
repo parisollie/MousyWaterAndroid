@@ -1,5 +1,6 @@
 package com.pjff.mousywater.ui.activities
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -188,6 +189,13 @@ class ProductDetailActivity : BaseActivity() , View.OnClickListener{
                 R.id.btn_add_to_cart -> {
                     addToCart()
                 }
+
+                // TODO Step 6: Handle the click event of the GoToCart button and launch the CartListActivity.
+                // START
+                R.id.btn_go_to_cart->{
+                    startActivity(Intent(this@ProductDetailActivity, CartListActivity::class.java))
+                } // END
+
             }
         }
         // END
