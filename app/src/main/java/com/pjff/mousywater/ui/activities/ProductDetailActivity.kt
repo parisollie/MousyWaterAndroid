@@ -3,6 +3,7 @@ package com.pjff.mousywater.ui.activities
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import com.pjff.mousywater.R
 import com.pjff.mousywater.databinding.ActivityLoginBinding
 import com.pjff.mousywater.databinding.ActivityProductDetailBinding
@@ -36,11 +37,28 @@ class ProductDetailActivity : BaseActivity() {
         if (intent.hasExtra(Constants.EXTRA_PRODUCT_ID)) {
             mProductId =
                 intent.getStringExtra(Constants.EXTRA_PRODUCT_ID)!!
-            Log.i("Product Id", mProductId)
+           // Log.i("Product Id", mProductId)
+        } // END
+
+        // TODO Step 7: Get the product owner id through intent.
+        // START
+        var productOwnerId: String = ""
+
+        if (intent.hasExtra(Constants.EXTRA_PRODUCT_OWNER_ID)) {
+            productOwnerId =
+                intent.getStringExtra(Constants.EXTRA_PRODUCT_OWNER_ID)!!
         }
         // END
-
         setupActionBar()
+
+        // TODO Step 8: Now we have the product owner id so if the product which is added by owner himself should not see the button Add To Cart.
+        // START
+        if (FirestoreClass().getCurrentUserID() == productOwnerId) {
+            binding.btnAddToCart.visibility = View.GONE
+        } else {
+            binding.btnAddToCart.visibility = View.VISIBLE
+        }
+        // END
 
         // TODO Step 6: Call the function to get the product details when the activity is launched.
         // START

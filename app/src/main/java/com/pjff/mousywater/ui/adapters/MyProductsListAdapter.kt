@@ -88,6 +88,7 @@ open class MyProductsListAdapter(
             // TODO Step 4: Pass the product id to the product details screen through intent.
             // START
             intent.putExtra(Constants.EXTRA_PRODUCT_ID, model.product_id)
+            intent.putExtra(Constants.EXTRA_PRODUCT_OWNER_ID, model.user_id)
             context.startActivity(intent)
         }
         // END
