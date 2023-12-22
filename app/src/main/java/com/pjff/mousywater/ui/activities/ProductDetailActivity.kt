@@ -4,16 +4,23 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import com.pjff.mousywater.R
 import com.pjff.mousywater.databinding.ActivityLoginBinding
 import com.pjff.mousywater.databinding.ActivityProductDetailBinding
 import com.pjff.mousywater.firestore.FirestoreClass
+import com.pjff.mousywater.models.Cart
 import com.pjff.mousywater.models.Product
 import com.pjff.mousywater.utils.Constants
 import com.pjff.mousywater.utils.GlideLoader
 
 
-class ProductDetailActivity : BaseActivity() {
+class ProductDetailActivity : BaseActivity() , View.OnClickListener{
+
+    // TODO Step 5: Create a global instance of the Product data class which will be initialized later on.
+    // START
+    private lateinit var mProductDetails: Product
+    // END
 
     private lateinit var binding: ActivityProductDetailBinding
     // TODO Step 5: Create a global variable for product id.
@@ -57,7 +64,11 @@ class ProductDetailActivity : BaseActivity() {
             binding.btnAddToCart.visibility = View.GONE
         } else {
             binding.btnAddToCart.visibility = View.VISIBLE
-        }
+        } // END
+
+        // TODO Step 3: Assign the onClick event to the add to cart button.
+        // START
+        binding.btnAddToCart.setOnClickListener(this)
         // END
 
         // TODO Step 6: Call the function to get the product details when the activity is launched.
@@ -94,6 +105,11 @@ class ProductDetailActivity : BaseActivity() {
      */
     fun productDetailsSuccess(product: Product) {
 
+        // TODO Step 6: Initialize the the variable
+        // START
+        mProductDetails = product
+        // END
+
         // Hide Progress dialog.
         hideProgressDialog()
 
@@ -122,8 +138,68 @@ class ProductDetailActivity : BaseActivity() {
 
         // Call the function of FirestoreClass to get the product details.
         FirestoreClass().getProductDetails(this@ProductDetailActivity, mProductId)
+    }//END
+
+    // TODO Step 8 : Create a function to prepare the cart item to add it to the cart.
+    // START
+    /**
+     * A function to prepare the cart item to add it to the cart.
+     */
+    private fun addToCart() {
+
+        val addToCart = Cart(
+            FirestoreClass().getCurrentUserID(),
+            mProductId,
+            mProductDetails.title,
+            mProductDetails.price,
+            mProductDetails.image,
+            Constants.DEFAULT_CART_QUANTITY
+        )
+
+        // TODO Step 5: Call the function of Firestore class to add the cart item to the cloud firestore along with the required params.
+        // START
+        // Show the progress dialog
+        showProgressDialog(resources.getString(R.string.please_wait))
+
+        FirestoreClass().addCartItems(this@ProductDetailActivity, addToCart)
+        // END
+    } // END
+
+
+
+
+
+
+
+    override fun onClick(v: View?) {
+        // TODO Step 9: Handle the click event of the Add to cart button and call the addToCart function.
+        // START
+        if (v != null) {
+            when (v.id) {
+
+                R.id.btn_add_to_cart -> {
+                    addToCart()
+                }
+            }
+        }
+        // END
+    }// END
+
+
+    // TODO Step 3: Create a function to notify the success result of item added to the to cart.\
+    // START
+    fun addToCartSuccess() {
+        // Hide the progress dialog.
+        hideProgressDialog()
+
+        Toast.makeText(
+            this@ProductDetailActivity,
+            resources.getString(R.string.success_message_item_added_to_cart),
+            Toast.LENGTH_SHORT
+        ).show()
     }
     // END
+
 
 
 

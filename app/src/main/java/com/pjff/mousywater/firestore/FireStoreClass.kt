@@ -14,6 +14,7 @@ import android.net.Uri
 import androidx.fragment.app.Fragment
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import com.pjff.mousywater.models.Cart
 import com.pjff.mousywater.models.Product
 import com.pjff.mousywater.ui.activities.AddProductActivity
 import com.pjff.mousywater.ui.activities.LoginActivity
@@ -403,6 +404,42 @@ class FirestoreClass {
             }
     }
     // END
+
+
+
+    // TODO Step 2: Create a function to add the item to the cart in the cloud firestore.
+    // START
+    /**
+     * A function to add the item to the cart in the cloud firestore.
+     *
+     * @param activity
+     * @param addToCart
+     */
+    fun addCartItems(activity: ProductDetailActivity, addToCart: Cart) {
+
+        mFireStore.collection(Constants.CART_ITEMS)
+            .document()
+            // Here the userInfo are Field and the SetOption is set to merge. It is for if we wants to merge
+            .set(addToCart, SetOptions.merge())
+            .addOnSuccessListener {
+
+                // Here call a function of base activity for transferring the result to it.
+                activity.addToCartSuccess()
+            }
+            .addOnFailureListener { e ->
+
+                activity.hideProgressDialog()
+
+                Log.e(
+                    activity.javaClass.simpleName,
+                    "Error while creating the document for cart item.",
+                    e
+                )
+            }
+    }
+// END
+
+
 
 
 
