@@ -3,10 +3,13 @@ package com.pjff.mousywater.ui.activities
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.pjff.mousywater.R
 import com.pjff.mousywater.databinding.ActivityCartListBinding
 import com.pjff.mousywater.firestore.FirestoreClass
 import com.pjff.mousywater.models.Cart
+import com.pjff.mousywater.ui.adapters.CartItemsListAdapter
 
 class CartListActivity : BaseActivity()  {
     private lateinit var binding:ActivityCartListBinding
@@ -63,20 +66,64 @@ class CartListActivity : BaseActivity()  {
     }
     // END
 
-    // TODO Step 5: Create a function to notify the success result of the cart items list from cloud firestore.
-    // START
     /**
      * A function to notify the success result of the cart items list from cloud firestore.
+     *
+     * @param cartList
      */
     fun successCartItemsList(cartList: ArrayList<Cart>) {
 
         // Hide progress dialog.
         hideProgressDialog()
 
-        for (i in cartList) {
+        // TODO Step 2: Remove the for loop and display the list of cart items in the recycler view along with total amount.
+        // START
+
+        /*for (i in cartList) {
 
             Log.i("Cart Item Title", i.title)
 
+        }*/
+
+        if (cartList.size > 0) {
+
+            binding.rvCartItemsList.visibility = View.VISIBLE
+            binding.llCheckout.visibility = View.VISIBLE
+            binding.tvNoCartItemFound.visibility = View.GONE
+
+            binding.rvCartItemsList.layoutManager = LinearLayoutManager(this@CartListActivity)
+            binding.rvCartItemsList.setHasFixedSize(true)
+
+            val cartListAdapter = CartItemsListAdapter(this@CartListActivity, cartList)
+            binding.rvCartItemsList.adapter = cartListAdapter
+
+            var subTotal: Double = 0.0
+
+            for (item in cartList) {
+
+                val price = item.price.toDouble()
+                val quantity = item.cart_quantity.toInt()
+
+                subTotal += (price * quantity)
+            }
+
+            binding.tvSubTotal.text = "$$subTotal"
+            // Here we have kept Shipping Charge is fixed as $10 but in your case it may cary. Also, it depends on the location and total amount.
+            binding.tvShippingCharge.text = "$10.0"
+
+            if (subTotal > 0) {
+                binding.llCheckout.visibility = View.VISIBLE
+
+                val total = subTotal + 10
+                binding.tvTotalAmount.text = "$$total"
+            } else {
+                binding.llCheckout.visibility = View.GONE
+            }
+
+        } else {
+            binding.rvCartItemsList.visibility = View.GONE
+            binding.llCheckout.visibility = View.GONE
+            binding.tvNoCartItemFound.visibility = View.VISIBLE
         }
     }
     // END
