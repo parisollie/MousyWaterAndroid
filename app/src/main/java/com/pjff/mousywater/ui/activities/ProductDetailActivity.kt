@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import com.pjff.mousywater.R
 import com.pjff.mousywater.databinding.ActivityLoginBinding
 import com.pjff.mousywater.databinding.ActivityProductDetailBinding
@@ -127,17 +128,37 @@ class ProductDetailActivity : BaseActivity() , View.OnClickListener{
         binding.tvProductDetailsDescription.text = product.description
         binding.tvProductDetailsQuantity.text = product.stock_quantity
 
-
-        // TODO Step 9: Call the function to check the product exist in the cart or not from the firestore class.
+        // TODO Step 8: Update the UI if the stock quantity is 0.
         // START
-        // There is no need to check the cart list if the product owner himself is seeing the product details.
-        if (FirestoreClass().getCurrentUserID() == product.user_id) {
+        if(product.stock_quantity.toInt() == 0) {
+
             // Hide Progress dialog.
             hideProgressDialog()
-        } else {
-            FirestoreClass().checkIfItemExistInCart(this@ProductDetailActivity, mProductId)
-        }
-        // END
+
+            // Hide the AddToCart button if the item is already in the cart.
+            binding.btnAddToCart.visibility = View.GONE
+
+            binding.tvProductDetailsAvailableQuantity.text =
+                resources.getString(R.string.lbl_out_of_stock)
+
+            binding.tvProductDetailsQuantity.setTextColor(
+                ContextCompat.getColor(
+                    this@ProductDetailActivity,
+                    R.color.colorSnackBarError
+                )
+            )
+        }else{
+
+                // There is no need to check the cart list if the product owner himself is seeing the product details.
+                if (FirestoreClass().getCurrentUserID() == product.user_id) {
+                    // Hide Progress dialog.
+                    hideProgressDialog()
+                } else {
+                    FirestoreClass().checkIfItemExistInCart(this@ProductDetailActivity, mProductId)
+                }
+            }
+            // END
+
     }
     // END
 

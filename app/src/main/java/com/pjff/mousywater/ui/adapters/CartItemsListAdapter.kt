@@ -4,11 +4,15 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.pjff.mousywater.R
 import com.pjff.mousywater.databinding.ItemCartLayoutBinding
 import com.pjff.mousywater.databinding.ItemListLayoutBinding
+import com.pjff.mousywater.firestore.FirestoreClass
 import com.pjff.mousywater.models.Cart
 import com.pjff.mousywater.models.Product
+import com.pjff.mousywater.ui.activities.CartListActivity
 import com.pjff.mousywater.ui.activities.ProductDetailActivity
 import com.pjff.mousywater.ui.fragments.ProductsFragment
 import com.pjff.mousywater.utils.Constants
@@ -31,6 +35,10 @@ open class CartItemsListAdapter(
     class ViewHolder( val binding: ItemCartLayoutBinding): RecyclerView.ViewHolder(binding.root){
 
         val ivItemImage = binding.ivCartItemImage
+        val ibRemoveCartItem = binding.ibRemoveCartItem
+        val ibAddCartItem = binding.ibAddCartItem
+        val tvCartQuantity = binding.tvCartQuantity
+        val ibDeleteCartItem = binding.ibDeleteCartItem
 
 
         fun bind(cart: Cart){
@@ -41,6 +49,8 @@ open class CartItemsListAdapter(
                     tvCartItemPrice.text = cart.price
                     tvCartQuantity.text = cart.stock_quantity
                     tvCartItemTitle.text = cart.title
+
+
 
                 }
             }
@@ -73,6 +83,57 @@ open class CartItemsListAdapter(
         val model = list[position]
 
         GlideLoader(context).loadProductPicture(model.image,holder.ivItemImage)
+
+
+        // TODO Step 1: Show the text Out of Stock when cart quantity is zero.
+        // START
+        if (model.cart_quantity == "0") {
+            holder.ibRemoveCartItem.visibility = View.GONE
+            holder.ibAddCartItem.visibility = View.GONE
+
+            holder.tvCartQuantity.text =
+                context.resources.getString(R.string.lbl_out_of_stock)
+
+            holder.tvCartQuantity.setTextColor(
+                ContextCompat.getColor(
+                    context,
+                    R.color.colorSnackBarError
+                )
+            )
+        } else {
+            holder.ibRemoveCartItem.visibility = View.VISIBLE
+            holder.ibAddCartItem.visibility = View.VISIBLE
+
+            holder.tvCartQuantity.setTextColor(
+                ContextCompat.getColor(
+                    context,
+                    R.color.colorSecondaryText
+                )
+            )
+        } // END
+
+
+
+        // TODO Step 3: Assign the onclick event to the ib_delete_cart_item.
+        // START
+        holder.ibDeleteCartItem.setOnClickListener {
+
+            // TODO Step 7: Call the firestore class function to remove the item from cloud firestore.
+            // START
+
+            when (context) {
+                is CartListActivity -> {
+                    context.showProgressDialog(context.resources.getString(R.string.please_wait))
+                }
+            }
+
+            FirestoreClass().removeItemFromCart(context, model.id)
+            // END
+        }
+        // END
+
+
+
 
 
 

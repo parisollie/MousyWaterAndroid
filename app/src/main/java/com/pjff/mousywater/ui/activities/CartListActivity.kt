@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.pjff.mousywater.R
 import com.pjff.mousywater.databinding.ActivityCartListBinding
@@ -206,6 +207,28 @@ class CartListActivity : BaseActivity()  {
 
         FirestoreClass().getAllProductsList(this@CartListActivity)
     } // END
+
+
+
+
+    // TODO Step 5: Create a function to notify the user about the item removed from the cart list.
+    // START
+    /**
+     * A function to notify the user about the item removed from the cart list.
+     */
+    fun itemRemovedSuccess() {
+
+        hideProgressDialog()
+
+        Toast.makeText(
+            this@CartListActivity,
+            resources.getString(R.string.msg_item_removed_successfully),
+            Toast.LENGTH_SHORT
+        ).show()
+
+        getCartItemsList()
+    }
+    // END
 
 
 }

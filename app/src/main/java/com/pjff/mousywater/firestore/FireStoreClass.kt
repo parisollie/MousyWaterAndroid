@@ -572,6 +572,51 @@ class FirestoreClass {
 
 
 
+    // TODO Step 4: Create a function to remove the cart item from the cloud firestore.
+    // START
+    /**
+     * A function to remove the cart item from the cloud firestore.
+     *
+     * @param activity activity class.
+     * @param cart_id cart id of the item.
+     */
+    fun removeItemFromCart(context: Context, cart_id: String) {
+
+        // Cart items collection name
+        mFireStore.collection(Constants.CART_ITEMS)
+            .document(cart_id) // cart id
+            .delete()
+            .addOnSuccessListener {
+
+                // TODO Step 6: Notify the success result of the removed cart item from the list to the base class.
+                // START
+                // Notify the success result of the removed cart item from the list to the base class.
+                when (context) {
+                    is CartListActivity -> {
+                        context.itemRemovedSuccess()
+                    }
+                }
+                // END
+            }
+            .addOnFailureListener { e ->
+
+                // Hide the progress dialog if there is any error.
+                when (context) {
+                    is CartListActivity -> {
+                        context.hideProgressDialog()
+                    }
+                }
+                Log.e(
+                    context.javaClass.simpleName,
+                    "Error while removing the item from the cart list.",
+                    e
+                )
+            }
+    }
+    // END
+
+
+
 
 
 
