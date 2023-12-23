@@ -47,7 +47,7 @@ open class CartItemsListAdapter(
                 binding.apply {
                     //tvTitle , es como se llaman nuestras etiquetas
                     tvCartItemPrice.text = cart.price
-                    tvCartQuantity.text = cart.stock_quantity
+                    tvCartQuantity.text = cart.cart_quantity
                     tvCartItemTitle.text = cart.title
 
 
@@ -131,6 +131,88 @@ open class CartItemsListAdapter(
             // END
         }
         // END
+
+
+
+
+        // TODO Step 1: Assign the click event to the ib_remove_cart_item.
+        // START
+        holder.ibRemoveCartItem.setOnClickListener {
+
+            // TODO Step 6: Call the update or remove function of firestore class based on the cart quantity.
+            // START
+            if (model.cart_quantity == "1") {
+                FirestoreClass().removeItemFromCart(context, model.id)
+            } else {
+
+                val cartQuantity: Int = model.cart_quantity.toInt()
+
+                val itemHashMap = HashMap<String, Any>()
+
+                itemHashMap[Constants.CART_QUANTITY] = (cartQuantity - 1).toString()
+
+                // Show the progress dialog.
+
+                if (context is CartListActivity) {
+                    context.showProgressDialog(context.resources.getString(R.string.please_wait))
+                }
+
+                FirestoreClass().updateMyCart(context, model.id, itemHashMap)
+            }
+            // END
+        }
+        // END
+
+        // TODO Step 7: Assign the click event to the ib_add_cart_item.
+        // START
+        holder.ibAddCartItem.setOnClickListener {
+
+            // TODO Step 8: Call the update function of firestore class based on the cart quantity.
+            // START
+            val cartQuantity: Int = model.cart_quantity.toInt()
+
+            if (cartQuantity < model.stock_quantity.toInt()) {
+
+                val itemHashMap = HashMap<String, Any>()
+
+                itemHashMap[Constants.CART_QUANTITY] = (cartQuantity + 1).toString()
+
+                // Show the progress dialog.
+                if (context is CartListActivity) {
+                    context.showProgressDialog(context.resources.getString(R.string.please_wait))
+                }
+
+                FirestoreClass().updateMyCart(context, model.id, itemHashMap)
+            } else {
+                if (context is CartListActivity) {
+                    context.showErrorSnackBar(
+                        context.resources.getString(
+                            R.string.msg_for_available_stock,
+                            model.stock_quantity
+                        ),
+                        true
+                    )
+                }
+            }
+            // END
+        }
+        // END
+
+
+        holder.ibDeleteCartItem.setOnClickListener {
+
+            when (context) {
+                is CartListActivity -> {
+                    context.showProgressDialog(context.resources.getString(R.string.please_wait))
+                }
+            }
+
+            FirestoreClass().removeItemFromCart(context, model.id)
+        }
+
+
+
+
 
 
 

@@ -231,4 +231,18 @@ class CartListActivity : BaseActivity()  {
     // END
 
 
+    // TODO Step 3: Create a function to notify the user about the item quantity updated in the cart list.
+    // START
+    /**
+     * A function to notify the user about the item quantity updated in the cart list.
+     */
+    fun itemUpdateSuccess() {
+
+        hideProgressDialog()
+
+        getCartItemsList()
+    }
+    // END
+
+
 }
