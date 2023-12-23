@@ -529,6 +529,52 @@ class FirestoreClass {
 
 
 
+    // TODO Step 1: Create a function to get all the product list from the cloud firestore.
+    // START
+    /**
+     * A function to get all the product list from the cloud firestore.
+     *
+     * @param activity The activity is passed as parameter to the function because it is called from activity and need to the success result.
+     */
+    fun getAllProductsList(activity: CartListActivity) {
+        // The collection name for PRODUCTS
+        mFireStore.collection(Constants.PRODUCTS)
+            .get() // Will get the documents snapshots.
+            .addOnSuccessListener { document ->
+
+                // Here we get the list of boards in the form of documents.
+                Log.e("Products List", document.documents.toString())
+
+                // Here we have created a new instance for Products ArrayList.
+                val productsList: ArrayList<Product> = ArrayList()
+
+                // A for loop as per the list of documents to convert them into Products ArrayList.
+                for (i in document.documents) {
+
+                    val product = i.toObject(Product::class.java)
+                    product!!.product_id = i.id
+
+                    productsList.add(product)
+                }
+
+                // TODO Step 3: Pass the success result of the product list to the cart list activity.
+                // START
+                activity.successProductsListFromFireStore(productsList)
+                // END
+            }
+            .addOnFailureListener { e ->
+                // Hide the progress dialog if there is any error based on the base class instance.
+                activity.hideProgressDialog()
+
+                Log.e("Get Product List", "Error while getting all product list.", e)
+            }
+    }//end
+
+
+
+
+
+
 
 
 

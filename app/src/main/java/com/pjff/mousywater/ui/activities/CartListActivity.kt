@@ -9,10 +9,25 @@ import com.pjff.mousywater.R
 import com.pjff.mousywater.databinding.ActivityCartListBinding
 import com.pjff.mousywater.firestore.FirestoreClass
 import com.pjff.mousywater.models.Cart
+import com.pjff.mousywater.models.Product
 import com.pjff.mousywater.ui.adapters.CartItemsListAdapter
 
 class CartListActivity : BaseActivity()  {
     private lateinit var binding:ActivityCartListBinding
+    // TODO Step 6: Create a global variable for the product list.
+    // START
+    private lateinit var mProductsList: ArrayList<Product>
+    // END
+
+
+
+    // TODO Step 1: Create a global variable for the cart list items.
+    // START
+    // A global variable for the cart list items.
+    private lateinit var mCartListItems: ArrayList<Cart>
+    // END
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         //This call the parent constructor
         super.onCreate(savedInstanceState)
@@ -31,7 +46,12 @@ class CartListActivity : BaseActivity()  {
     override fun onResume() {
         super.onResume()
 
-        getCartItemsList()
+        // TODO Step 5: Replace the function with getCartItemsList with getProductList as before cart list we require the product list.
+        // START
+        //getCartItemsList()
+
+        getProductList()
+        // END
     }
     // END
 
@@ -60,7 +80,7 @@ class CartListActivity : BaseActivity()  {
     private fun getCartItemsList() {
 
         // Show the progress dialog.
-        showProgressDialog(resources.getString(R.string.please_wait))
+        //showProgressDialog(resources.getString(R.string.please_wait))
 
         FirestoreClass().getCartList(this@CartListActivity)
     }
@@ -76,16 +96,29 @@ class CartListActivity : BaseActivity()  {
         // Hide progress dialog.
         hideProgressDialog()
 
-        // TODO Step 2: Remove the for loop and display the list of cart items in the recycler view along with total amount.
+        // TODO Step 3: Compare the product id of product list with product id of cart items list and update the stock quantity in the cart items list from the latest product list.
         // START
+        for (product in mProductsList) {
+            for (cart in cartList) {
+                if (product.product_id == cart.product_id) {
 
-        /*for (i in cartList) {
+                    cart.stock_quantity = product.stock_quantity
 
-            Log.i("Cart Item Title", i.title)
+                    if (product.stock_quantity.toInt() == 0){
+                        cart.cart_quantity = product.stock_quantity
+                    }
+                }
+            }
+        }
+        // END
 
-        }*/
+        // TODO Step 5: Initialize the global variable of cart list items.
+        // START
+        mCartListItems = cartList
+        // END
 
-        if (cartList.size > 0) {
+
+        if (mCartListItems.size > 0) {
 
             binding.rvCartItemsList.visibility = View.VISIBLE
             binding.llCheckout.visibility = View.VISIBLE
@@ -99,12 +132,19 @@ class CartListActivity : BaseActivity()  {
 
             var subTotal: Double = 0.0
 
-            for (item in cartList) {
+            for (item in mCartListItems) {
 
-                val price = item.price.toDouble()
-                val quantity = item.cart_quantity.toInt()
+                // TODO Step 7: Calculate the subtotal based on the stock quantity.
+                // START
+                val availableQuantity = item.stock_quantity.toInt()
 
-                subTotal += (price * quantity)
+                if (availableQuantity > 0) {
+                    val price = item.price.toDouble()
+                    val quantity = item.cart_quantity.toInt()
+
+                    subTotal += (price * quantity)
+                }
+                // END
             }
 
             binding.tvSubTotal.text = "$$subTotal"
@@ -127,4 +167,45 @@ class CartListActivity : BaseActivity()  {
         }
     }
     // END
+
+
+
+
+    // TODO Step 2: Create a function to get the success result of product list.
+    // START
+    /**
+     * A function to get the success result of product list.
+     *
+     * @param productsList
+     */
+    fun successProductsListFromFireStore(productsList: ArrayList<Product>) {
+
+        // TODO Step 7: Initialize the product list global variable once we have the product list.
+        // START
+        mProductsList = productsList
+        // END
+
+        // TODO Step 8: Once we have the latest product list from cloud firestore get the cart items list from cloud firestore.
+        // START
+        getCartItemsList()
+        // END
+    }
+    // END
+
+
+
+    // TODO Step 4: Create a function to get product list to compare the current stock with the cart items.
+    // START
+    /**
+     * A function to get product list to compare the current stock with the cart items.
+     */
+    private fun getProductList() {
+
+        // Show the progress dialog.
+        showProgressDialog(resources.getString(R.string.please_wait))
+
+        FirestoreClass().getAllProductsList(this@CartListActivity)
+    } // END
+
+
 }
