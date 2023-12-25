@@ -1,5 +1,6 @@
 package com.pjff.mousywater.ui.activities
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.pjff.mousywater.R
@@ -17,6 +18,14 @@ class AdressListActivity : AppCompatActivity() {
         // TODO Step 10: Call the setup action bar function.
         // START
         setupActionBar()
+        // END
+
+        // TODO Step 8: Assign the click event for the Add Address and launch the AddEditAddressActivity.
+        // START
+        binding.tvAddAddress.setOnClickListener {
+            val intent = Intent(this@AdressListActivity, AddEditAddressActivity::class.java)
+            startActivity(intent)
+        }
         // END
     }
 
