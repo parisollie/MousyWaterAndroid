@@ -7,15 +7,16 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.SetOptions
 import com.pjff.mousywater.ui.activities.RegisterActivity
 import com.pjff.mousywater.models.User
-
 import android.content.Context
 import android.content.SharedPreferences
 import android.net.Uri
 import androidx.fragment.app.Fragment
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import com.pjff.mousywater.models.Address
 import com.pjff.mousywater.models.Cart
 import com.pjff.mousywater.models.Product
+import com.pjff.mousywater.ui.activities.AddEditAddressActivity
 import com.pjff.mousywater.ui.activities.AddProductActivity
 import com.pjff.mousywater.ui.activities.CartListActivity
 import com.pjff.mousywater.ui.activities.LoginActivity
@@ -656,6 +657,41 @@ class FirestoreClass {
                 Log.e(
                     context.javaClass.simpleName,
                     "Error while updating the cart item.",
+                    e
+                )
+            }
+    }
+    // END
+
+
+    // TODO Step 2: Create a function to add address to the cloud firestore.
+    // START
+    /**
+     * A function to add address to the cloud firestore.
+     *
+     * @param activity
+     * @param addressInfo
+     */
+    fun addAddress(activity: AddEditAddressActivity, addressInfo: Address) {
+
+        // Collection name address.
+        mFireStore.collection(Constants.ADDRESSES)
+            .document()
+            // Here the userInfo are Field and the SetOption is set to merge. It is for if we wants to merge
+            .set(addressInfo, SetOptions.merge())
+            .addOnSuccessListener {
+
+                // TODO Step 5: Notify the success result to the base class.
+                // START
+                // Here call a function of base activity for transferring the result to it.
+                activity.addUpdateAddressSuccess()
+                // END
+            }
+            .addOnFailureListener { e ->
+                activity.hideProgressDialog()
+                Log.e(
+                    activity.javaClass.simpleName,
+                    "Error while adding the address.",
                     e
                 )
             }
