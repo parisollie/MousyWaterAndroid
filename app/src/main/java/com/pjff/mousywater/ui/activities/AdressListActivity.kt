@@ -3,10 +3,13 @@ package com.pjff.mousywater.ui.activities
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import com.pjff.mousywater.R
 import com.pjff.mousywater.databinding.ActivityAdressListBinding
+import com.pjff.mousywater.firestore.FirestoreClass
+import com.pjff.mousywater.models.Address
 
-class AdressListActivity : AppCompatActivity() {
+class AdressListActivity : BaseActivity() {
     private lateinit var binding:ActivityAdressListBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         //This call the parent constructor
@@ -25,7 +28,12 @@ class AdressListActivity : AppCompatActivity() {
         binding.tvAddAddress.setOnClickListener {
             val intent = Intent(this@AdressListActivity, AddEditAddressActivity::class.java)
             startActivity(intent)
-        }
+        } // END
+
+
+        // TODO Step 6: Call the function to get the address list.
+        // START
+        getAddressList()
         // END
     }
 
@@ -49,4 +57,49 @@ class AdressListActivity : AppCompatActivity() {
 
         binding.toolbarAddressListActivity.setNavigationOnClickListener { onBackPressed() }
     } // END
+
+
+
+
+    // TODO Step 3: Create a function to get the success result of address list from cloud firestore.
+    // START
+    /**
+     * A function to get the success result of address list from cloud firestore.
+     *
+     * @param addressList
+     */
+    fun successAddressListFromFirestore(addressList: ArrayList<Address>) {
+
+        // Hide the progress dialog
+        hideProgressDialog()
+
+
+        // Print all the list of addresses in the log with name.
+        for (i in addressList) {
+
+            Log.i("Name and Address", "${i.name} ::  ${i.address}")
+        }
+    }
+    // END
+
+
+
+    // TODO Step 5: Create a function to get the list of address from cloud firestore.
+    // START
+    /**
+     * A function to get the list of address from cloud firestore.
+     */
+    private fun getAddressList() {
+
+        // Show the progress dialog.
+        showProgressDialog(resources.getString(R.string.please_wait))
+
+        FirestoreClass().getAddressesList(this@AdressListActivity)
+    }
+    // END
+
+
+
+
+
 }
