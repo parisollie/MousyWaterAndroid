@@ -15,10 +15,15 @@
         android:theme="@style/Theme.MousyWater"
         tools:targetApi="31">
         <activity
-            android:name=".ui.activities.CartListActivity"
+            android:name=".ui.activities.AdressListActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".ui.activities.CartListActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.activities.ProductDetailActivity"
             android:exported="false"

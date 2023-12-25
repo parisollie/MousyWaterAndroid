@@ -37,6 +37,10 @@ class SettingsActivity : BaseActivity(), View.OnClickListener {
 
         binding.tvEdit.setOnClickListener(this@SettingsActivity)
         binding.btnLogout.setOnClickListener(this@SettingsActivity)
+        // TODO Step 7: Assign the click event for the ll_address.
+        // START
+        binding.llAddress.setOnClickListener(this@SettingsActivity)
+        // END
     }
 
     override fun onResume() {
@@ -64,6 +68,19 @@ class SettingsActivity : BaseActivity(), View.OnClickListener {
                     startActivity(intent)
                     finish()
                 }
+
+                // TODO Step 8: Launch the Address List Screen.
+                // START
+                R.id.ll_address -> {
+                    val intent = Intent(this@SettingsActivity, AdressListActivity::class.java)
+                    startActivity(intent)
+                }
+                // END
+
+
+
+
+
             }
         }
     }
