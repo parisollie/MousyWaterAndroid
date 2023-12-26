@@ -1,5 +1,6 @@
 package com.pjff.mousywater.ui.activities
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -12,6 +13,7 @@ import com.pjff.mousywater.firestore.FirestoreClass
 import com.pjff.mousywater.models.Cart
 import com.pjff.mousywater.models.Product
 import com.pjff.mousywater.ui.adapters.CartItemsListAdapter
+import com.pjff.mousywater.utils.Constants
 
 class CartListActivity : BaseActivity()  {
     private lateinit var binding:ActivityCartListBinding
@@ -39,6 +41,15 @@ class CartListActivity : BaseActivity()  {
         // TODO Step 3: Call the function to setup the action bar.
         // START
         setupActionBar()
+
+
+        // TODO Step 2: Assign the click event to the checkout button and proceed to the next screen.
+        // START
+        binding.btnCheckout.setOnClickListener {
+            val intent = Intent(this@CartListActivity, AdressListActivity::class.java)
+            intent.putExtra(Constants.EXTRA_SELECT_ADDRESS, true)
+            startActivity(intent)
+        }
         // END
     }
 

@@ -6,6 +6,7 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.pjff.mousywater.R
@@ -26,7 +27,8 @@ import com.pjff.mousywater.utils.GlideLoader
 open class AddressListAdapter(
 
     private val context: Context,
-    private var list: ArrayList<Address>
+    private var list: ArrayList<Address>,
+    private val selectAddress: Boolean
 
 
 ) : RecyclerView.Adapter<AddressListAdapter.ViewHolder>() {
@@ -37,7 +39,7 @@ open class AddressListAdapter(
         val ibAddCartItem = binding.ibAddCartItem
         val tvCartQuantity = binding.tvCartQuantity
         val ibDeleteCartItem = binding.ibDeleteCartItem*/
-
+        val tvAddressDetail = binding.tvAddressDetails
 
         fun bind(address: Address){
             with(binding){
@@ -80,6 +82,20 @@ open class AddressListAdapter(
         holder.bind(list[position])
         val model = list[position]
 
+
+        // TODO Step 10: Assign the click event to the address item when user is about to select the address.
+        // START
+        if (selectAddress) {
+            holder.tvAddressDetail.setOnClickListener {
+                Toast.makeText(
+                    context,
+                    "Selected address : ${model.address}, ${model.zipCode}",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+        // END
+
     }
 
     /**
@@ -102,7 +118,7 @@ open class AddressListAdapter(
         // START
         intent.putExtra(Constants.EXTRA_ADDRESS_DETAILS, list[position])
         // END
-        activity.startActivity(intent)
+        activity.startActivityForResult(intent, Constants.ADD_ADDRESS_REQUEST_CODE)
 
         notifyItemChanged(position) // Notify any registered observers that the item at position has changed.
     }
