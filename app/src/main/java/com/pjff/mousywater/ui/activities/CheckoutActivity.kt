@@ -29,6 +29,7 @@ class CheckoutActivity : BaseActivity() {
 
     // A global variable for the Total Amount.
     private var mTotalAmount: Double = 0.0
+
     // END
     // TODO Step 12: Global variable for cart items list.
     // START
@@ -205,7 +206,7 @@ class CheckoutActivity : BaseActivity() {
 
         // TODO Step 9: Calculate the subtotal and Total Amount.
         // START
-        var subTotal: Double = 0.0
+        //var subTotal: Double = 0.0
 
         for (item in mCartItemsList) {
 
@@ -222,23 +223,16 @@ class CheckoutActivity : BaseActivity() {
 
         binding.tvCheckoutSubTotal.text = "$$mSubTotal"
         // Here we have kept Shipping Charge is fixed as $10 but in your case it may cary. Also, it depends on the location and total amount.
-        binding.tvCheckoutShippingCharge.text = "$1.0"
+        binding.tvCheckoutShippingCharge.text = "$10.0"
 
         if (mSubTotal > 0) {
             binding.llCheckoutPlaceOrder.visibility = View.VISIBLE
 
-            val mTotalAmount = mSubTotal + 10
+            mTotalAmount = mSubTotal + 10.0
             binding.tvCheckoutTotalAmount.text = "$$mTotalAmount"
         } else {
             binding.llCheckoutPlaceOrder.visibility = View.GONE
         }
-
-
-
-
-
-
-        // END
     } // END
 
 
@@ -257,18 +251,16 @@ class CheckoutActivity : BaseActivity() {
             // TODO Step 5: Now prepare the order details based on all the required details.
             // START
             mOrderDetails = Order(
+
                 FirestoreClass().getCurrentUserID(),
                 mCartItemsList,
                 mAddressDetails!!,
                 "My order ${System.currentTimeMillis()}",
                 mCartItemsList[0].image,
                 mSubTotal.toString(),
-                "1.0", // The Shipping Charge is fixed as $10 for now in our case.
+                "10.0", // The Shipping Charge is fixed as $10 for now in our case.
                 mTotalAmount.toString(),
-                // TODO Step 5: Pass the value as current timestamp in the required param for order date.
-                // START
                 System.currentTimeMillis()
-                // END
 
 
 
