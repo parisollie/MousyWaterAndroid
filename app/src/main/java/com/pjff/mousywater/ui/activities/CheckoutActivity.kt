@@ -2,12 +2,15 @@ package com.pjff.mousywater.ui.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.pjff.mousywater.R
 import com.pjff.mousywater.databinding.ActivityCheckoutBinding
 import com.pjff.mousywater.firestore.FirestoreClass
 import com.pjff.mousywater.models.Address
 import com.pjff.mousywater.models.Cart
 import com.pjff.mousywater.models.Product
+import com.pjff.mousywater.ui.adapters.CartItemsListAdapter
 import com.pjff.mousywater.utils.Constants
 
 class CheckoutActivity : BaseActivity() {
@@ -151,10 +154,69 @@ class CheckoutActivity : BaseActivity() {
         // Hide progress dialog.
         hideProgressDialog()
 
+
+        // TODO Step 1: Update the stock quantity in the cart list from the product list.
+        // START
+        for (product in mProductsList) {
+            for (cart in cartList) {
+                if (product.product_id == cart.product_id) {
+                    cart.stock_quantity = product.stock_quantity
+                }
+            }
+        } // END
         // TODO Step 13: Initialize the cart list.
         // START
         mCartItemsList = cartList
         // END
+
+
+
+        // TODO Step 2: Populate the cart items in the UI.
+        // START
+        binding.rvCartListItems.layoutManager = LinearLayoutManager(this@CheckoutActivity)
+        binding.rvCartListItems.setHasFixedSize(true)
+
+        // TODO Step 5: Pass the required param.
+        val cartListAdapter = CartItemsListAdapter(this@CheckoutActivity, mCartItemsList, false)
+        binding.rvCartListItems.adapter = cartListAdapter
+        // END
+
+        // TODO Step 9: Calculate the subtotal and Total Amount.
+        // START
+        var subTotal: Double = 0.0
+
+        for (item in mCartItemsList) {
+
+            val availableQuantity = item.stock_quantity.toInt()
+
+            if (availableQuantity > 0) {
+                val price = item.price.toDouble()
+                val quantity = item.cart_quantity.toInt()
+
+                subTotal += (price * quantity)
+            }
+        }
+
+
+        binding.tvCheckoutSubTotal.text = "$$subTotal"
+        // Here we have kept Shipping Charge is fixed as $10 but in your case it may cary. Also, it depends on the location and total amount.
+        binding.tvCheckoutShippingCharge.text = "$10.0"
+
+        if (subTotal > 0) {
+            binding.llCheckoutPlaceOrder.visibility = View.VISIBLE
+
+            val total = subTotal + 10
+            binding.tvCheckoutTotalAmount.text = "$$total"
+        } else {
+            binding.llCheckoutPlaceOrder.visibility = View.GONE
+        }
+        // END
+
+
+
+
+
+
     }
     // END
 

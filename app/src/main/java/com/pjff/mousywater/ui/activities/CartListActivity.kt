@@ -139,7 +139,7 @@ class CartListActivity : BaseActivity()  {
             binding.rvCartItemsList.layoutManager = LinearLayoutManager(this@CartListActivity)
             binding.rvCartItemsList.setHasFixedSize(true)
 
-            val cartListAdapter = CartItemsListAdapter(this@CartListActivity, cartList)
+            val cartListAdapter = CartItemsListAdapter(this@CartListActivity, mCartListItems,true)
             binding.rvCartItemsList.adapter = cartListAdapter
 
             var subTotal: Double = 0.0

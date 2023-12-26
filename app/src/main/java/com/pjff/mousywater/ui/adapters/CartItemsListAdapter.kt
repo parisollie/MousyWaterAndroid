@@ -23,7 +23,8 @@ import com.pjff.mousywater.utils.GlideLoader
 open class CartItemsListAdapter(
 
     private val context: Context,
-    private var list: ArrayList<Cart>
+    private var list: ArrayList<Cart>,
+    private val updateCartItems: Boolean
 
 
 ) : RecyclerView.Adapter<CartItemsListAdapter.ViewHolder>() {
@@ -86,6 +87,16 @@ open class CartItemsListAdapter(
             holder.ibRemoveCartItem.visibility = View.GONE
             holder.ibAddCartItem.visibility = View.GONE
 
+            // TODO Step 6: Update the UI components as per the param.
+            // START
+            if (updateCartItems) {
+                holder.ibDeleteCartItem.visibility = View.VISIBLE
+            } else {
+                holder.ibDeleteCartItem.visibility = View.GONE
+            }
+            // END
+
+
             holder.tvCartQuantity.text =
                 context.resources.getString(R.string.lbl_out_of_stock)
 
@@ -96,8 +107,18 @@ open class CartItemsListAdapter(
                 )
             )
         } else {
-            holder.ibRemoveCartItem.visibility = View.VISIBLE
-            holder.ibAddCartItem.visibility = View.VISIBLE
+
+            if(updateCartItems){
+
+                holder.ibRemoveCartItem.visibility = View.VISIBLE
+                holder.ibAddCartItem.visibility = View.VISIBLE
+                holder.ibDeleteCartItem.visibility = View.VISIBLE
+            }else{
+                holder.ibRemoveCartItem.visibility = View.GONE
+                holder.ibAddCartItem.visibility = View.GONE
+                holder.ibDeleteCartItem.visibility = View.GONE
+
+            }//END
 
             holder.tvCartQuantity.setTextColor(
                 ContextCompat.getColor(
