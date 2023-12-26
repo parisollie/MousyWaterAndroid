@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.pjff.mousywater.databinding.ItemListLayoutBinding
 import com.pjff.mousywater.models.Order
 import com.pjff.mousywater.models.Product
+import com.pjff.mousywater.ui.activities.MyOrderDetailsActivity
 import com.pjff.mousywater.ui.activities.ProductDetailActivity
 import com.pjff.mousywater.ui.fragments.ProductsFragment
 import com.pjff.mousywater.utils.Constants
@@ -76,13 +77,18 @@ open class MyOrdersListAdapter(
         val model = list[position]
 
         GlideLoader(context).loadProductPicture(model.image,holder.ivItemImage)
-
+        holder.tvItemName.text = model.title
+        holder.tvItemPrice.text = "$${model.total_amount}"
         holder.ibDeleteProduct.visibility = View.GONE
 
-        holder.tvItemName.text = model.title
-
-
-        holder.tvItemPrice.text = "$${model.total_amount}"
+        // TODO Step 7: Assign the click event to my order item and launch and pass the details to the detail page through intent.
+        // START
+        holder.ivItemImage.setOnClickListener {
+            val intent = Intent(context, MyOrderDetailsActivity::class.java)
+            intent.putExtra(Constants.EXTRA_MY_ORDER_DETAILS, model)
+            context.startActivity(intent)
+        }
+        // END
 
     }
 

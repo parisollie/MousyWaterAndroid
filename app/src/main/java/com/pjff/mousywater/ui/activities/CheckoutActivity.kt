@@ -258,8 +258,15 @@ class CheckoutActivity : BaseActivity() {
                 "My order ${System.currentTimeMillis()}",
                 mCartItemsList[0].image,
                 mSubTotal.toString(),
-                "10.0", // The Shipping Charge is fixed as $10 for now in our case.
+                "1.0", // The Shipping Charge is fixed as $10 for now in our case.
                 mTotalAmount.toString(),
+                // TODO Step 5: Pass the value as current timestamp in the required param for order date.
+                // START
+                System.currentTimeMillis()
+                // END
+
+
+
             )
             // TODO Step 10: Call the function to place the order in the cloud firestore.
             // START
