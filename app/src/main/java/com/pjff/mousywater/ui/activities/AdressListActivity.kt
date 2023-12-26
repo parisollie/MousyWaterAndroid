@@ -4,10 +4,13 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.pjff.mousywater.R
 import com.pjff.mousywater.databinding.ActivityAdressListBinding
 import com.pjff.mousywater.firestore.FirestoreClass
 import com.pjff.mousywater.models.Address
+import com.pjff.mousywater.ui.adapters.AddressListAdapter
 
 class AdressListActivity : BaseActivity() {
     private lateinit var binding:ActivityAdressListBinding
@@ -74,11 +77,29 @@ class AdressListActivity : BaseActivity() {
         hideProgressDialog()
 
 
-        // Print all the list of addresses in the log with name.
-        for (i in addressList) {
+        // TODO Step 5: Populate the address list in the UI.
+        // START
+        if (addressList.size > 0) {
 
-            Log.i("Name and Address", "${i.name} ::  ${i.address}")
+            binding.rvAddressList.visibility = View.VISIBLE
+            binding.tvNoAddressFound.visibility = View.GONE
+
+            binding.rvAddressList.layoutManager = LinearLayoutManager(this@AdressListActivity)
+            binding.rvAddressList.setHasFixedSize(true)
+
+            val addressAdapter = AddressListAdapter(this@AdressListActivity, addressList)
+            binding.rvAddressList.adapter = addressAdapter
+        } else {
+            binding.rvAddressList.visibility = View.GONE
+            binding.tvNoAddressFound.visibility = View.VISIBLE
         }
+        // END
+
+
+
+
+
+
     }
     // END
 

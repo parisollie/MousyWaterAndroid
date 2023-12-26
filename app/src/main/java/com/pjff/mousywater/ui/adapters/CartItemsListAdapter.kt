@@ -1,6 +1,5 @@
 package com.pjff.mousywater.ui.adapters
 import android.content.Context
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,13 +7,9 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.pjff.mousywater.R
 import com.pjff.mousywater.databinding.ItemCartLayoutBinding
-import com.pjff.mousywater.databinding.ItemListLayoutBinding
 import com.pjff.mousywater.firestore.FirestoreClass
 import com.pjff.mousywater.models.Cart
-import com.pjff.mousywater.models.Product
 import com.pjff.mousywater.ui.activities.CartListActivity
-import com.pjff.mousywater.ui.activities.ProductDetailActivity
-import com.pjff.mousywater.ui.fragments.ProductsFragment
 import com.pjff.mousywater.utils.Constants
 import com.pjff.mousywater.utils.GlideLoader
 
