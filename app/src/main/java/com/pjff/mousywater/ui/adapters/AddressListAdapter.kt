@@ -15,6 +15,7 @@ import com.pjff.mousywater.firestore.FirestoreClass
 import com.pjff.mousywater.models.Address
 import com.pjff.mousywater.ui.activities.AddEditAddressActivity
 import com.pjff.mousywater.ui.activities.CartListActivity
+import com.pjff.mousywater.ui.activities.CheckoutActivity
 import com.pjff.mousywater.utils.Constants
 import com.pjff.mousywater.utils.GlideLoader
 
@@ -86,13 +87,23 @@ open class AddressListAdapter(
         // TODO Step 10: Assign the click event to the address item when user is about to select the address.
         // START
         if (selectAddress) {
-            holder.tvAddressDetail.setOnClickListener {
-                Toast.makeText(
-                    context,
-                    "Selected address : ${model.address}, ${model.zipCode}",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
+
+
+            // TODO Step 8: Remove the toast message and launch the checkout screen.
+            // START
+            /*Toast.makeText(
+                context,
+                "Selected address : ${model.address}, ${model.zipCode}",
+                Toast.LENGTH_SHORT
+            ).show()*/
+
+            val intent = Intent(context, CheckoutActivity::class.java)
+            context.startActivity(intent)
+            // END
+
+
+
+
         }
         // END
 
