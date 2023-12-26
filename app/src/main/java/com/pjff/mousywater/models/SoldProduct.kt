@@ -3,8 +3,6 @@ package com.pjff.mousywater.models
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
-// TODO Step 5: Create a data model class for Sold Product with required fields.
-// START
 /**
  * A data model class for Sold Product with required fields.
  */
@@ -23,4 +21,3 @@ data class SoldProduct(
     val address: Address = Address(),
     var id: String = "",
 ) : Parcelable
-// END
