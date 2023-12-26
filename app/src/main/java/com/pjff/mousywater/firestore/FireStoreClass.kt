@@ -15,6 +15,7 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.pjff.mousywater.models.Address
 import com.pjff.mousywater.models.Cart
+import com.pjff.mousywater.models.Order
 import com.pjff.mousywater.models.Product
 import com.pjff.mousywater.ui.activities.AddEditAddressActivity
 import com.pjff.mousywater.ui.activities.AddProductActivity
@@ -828,6 +829,41 @@ class FirestoreClass {
             }
     }//END
 
+
+    // TODO Step 7: Create a function to place an order of the user in the cloud firestore.
+    // START
+    /**
+     * A function to place an order of the user in the cloud firestore.
+     *
+     * @param activity base class
+     * @param order Order Info
+     */
+    fun placeOrder(activity: CheckoutActivity, order: Order) {
+
+        mFireStore.collection(Constants.ORDERS)
+            .document()
+            // Here the userInfo are Field and the SetOption is set to merge. It is for if we wants to merge
+            .set(order, SetOptions.merge())
+            .addOnSuccessListener {
+
+                // TODO Step 9: Notify the success result.
+                // START
+                // Here call a function of base activity for transferring the result to it.
+                activity.orderPlacedSuccess()
+                // END
+            }
+            .addOnFailureListener { e ->
+
+                // Hide the progress dialog if there is any error.
+                activity.hideProgressDialog()
+                Log.e(
+                    activity.javaClass.simpleName,
+                    "Error while placing an order.",
+                    e
+                )
+            }
+    }
+    // END
 
 
 

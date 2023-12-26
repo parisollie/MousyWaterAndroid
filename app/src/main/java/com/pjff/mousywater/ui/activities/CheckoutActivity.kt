@@ -1,19 +1,30 @@
 package com.pjff.mousywater.ui.activities
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.pjff.mousywater.R
 import com.pjff.mousywater.databinding.ActivityCheckoutBinding
 import com.pjff.mousywater.firestore.FirestoreClass
 import com.pjff.mousywater.models.Address
 import com.pjff.mousywater.models.Cart
+import com.pjff.mousywater.models.Order
 import com.pjff.mousywater.models.Product
 import com.pjff.mousywater.ui.adapters.CartItemsListAdapter
 import com.pjff.mousywater.utils.Constants
 
 class CheckoutActivity : BaseActivity() {
+    // TODO Step 3: Create a global variables for SubTotal and Total Amount.
+    // START
+    // A global variable for the SubTotal Amount.
+    private var mSubTotal: Double = 0.0
+
+    // A global variable for the Total Amount.
+    private var mTotalAmount: Double = 0.0
+    // END
     // TODO Step 12: Global variable for cart items list.
     // START
     private lateinit var mCartItemsList: ArrayList<Cart>
@@ -60,6 +71,12 @@ class CheckoutActivity : BaseActivity() {
                 binding.tvCheckoutOtherDetails.text = mAddressDetails?.otherDetails
             }
             binding.tvMobileNumber.text = mAddressDetails?.mobileNumber
+        }// END
+
+        // TODO Step 11: Assign a click event to the btn place order and call the function.
+        // START
+        binding.btnPlaceOrder.setOnClickListener {
+            placeAnOrder()
         }
         // END
 
@@ -193,33 +210,85 @@ class CheckoutActivity : BaseActivity() {
                 val price = item.price.toDouble()
                 val quantity = item.cart_quantity.toInt()
 
-                subTotal += (price * quantity)
+                mSubTotal += (price * quantity)
             }
         }
 
 
-        binding.tvCheckoutSubTotal.text = "$$subTotal"
+        binding.tvCheckoutSubTotal.text = "$$mSubTotal"
         // Here we have kept Shipping Charge is fixed as $10 but in your case it may cary. Also, it depends on the location and total amount.
-        binding.tvCheckoutShippingCharge.text = "$10.0"
+        binding.tvCheckoutShippingCharge.text = "$1.0"
 
-        if (subTotal > 0) {
+        if (mSubTotal > 0) {
             binding.llCheckoutPlaceOrder.visibility = View.VISIBLE
 
-            val total = subTotal + 10
-            binding.tvCheckoutTotalAmount.text = "$$total"
+            val mTotalAmount = mSubTotal + 10
+            binding.tvCheckoutTotalAmount.text = "$$mTotalAmount"
         } else {
             binding.llCheckoutPlaceOrder.visibility = View.GONE
         }
+
+
+
+
+
+
         // END
+    } // END
 
 
+    // TODO Step 2: Create a function to prepare the Order details to place an order.
+    // START
+    /**
+     * A function to prepare the Order details to place an order.
+     */
+    private fun placeAnOrder() {
 
+        // Show the progress dialog.
+        showProgressDialog(resources.getString(R.string.please_wait))
 
+        if(mAddressDetails != null){
 
+            // TODO Step 5: Now prepare the order details based on all the required details.
+            // START
+            val order = Order(
+                FirestoreClass().getCurrentUserID(),
+                mCartItemsList,
+                mAddressDetails!!,
+                "My order ${System.currentTimeMillis()}",
+                mCartItemsList[0].image,
+                mSubTotal.toString(),
+                "10.0", // The Shipping Charge is fixed as $10 for now in our case.
+                mTotalAmount.toString(),
+            )
+            // TODO Step 10: Call the function to place the order in the cloud firestore.
+            // START
+            FirestoreClass().placeOrder(this@CheckoutActivity, order)
+            // END
 
+        }
     }
     // END
 
+
+    // TODO Step 8: Create a function to notify the success result of the order placed.
+    // START
+    /**
+     * A function to notify the success result of the order placed.
+     */
+    fun orderPlacedSuccess() {
+
+        hideProgressDialog()
+
+        Toast.makeText(this@CheckoutActivity, "Your order placed successfully.", Toast.LENGTH_SHORT)
+            .show()
+
+        val intent = Intent(this@CheckoutActivity, DashboardActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
+        finish()
+    }
+    // END
 
 
 
