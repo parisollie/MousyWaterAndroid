@@ -27,6 +27,7 @@ import com.pjff.mousywater.ui.activities.ProductDetailActivity
 import com.pjff.mousywater.ui.activities.SettingsActivity
 import com.pjff.mousywater.ui.activities.UserProfileActivity
 import com.pjff.mousywater.ui.fragments.DashboardFragment
+import com.pjff.mousywater.ui.fragments.OrdersFragment
 import com.pjff.mousywater.ui.fragments.ProductsFragment
 import com.pjff.mousywater.utils.Constants
 
@@ -913,6 +914,45 @@ class FirestoreClass {
             Log.e(activity.javaClass.simpleName, "Error while updating all the details after order placed.", e)
         }
     } // END
+
+
+
+
+    // TODO Step 5: Create a function to get the list of orders from cloud firestore.
+    // START
+    /**
+     * A function to get the list of orders from cloud firestore.
+     */
+    fun getMyOrdersList(fragment: OrdersFragment) {
+        mFireStore.collection(Constants.ORDERS)
+            .whereEqualTo(Constants.USER_ID, getCurrentUserID())
+            .get() // Will get the documents snapshots.
+            .addOnSuccessListener { document ->
+                Log.e(fragment.javaClass.simpleName, document.documents.toString())
+                val list: ArrayList<Order> = ArrayList()
+
+                for (i in document.documents) {
+
+                    val orderItem = i.toObject(Order::class.java)!!
+                    orderItem.id = i.id
+
+                    list.add(orderItem)
+                }
+
+                // TODO Step 7: Notify the success result to base class.
+                // START
+                fragment.populateOrdersListInUI(list)
+                // END
+            }
+            .addOnFailureListener { e ->
+                // Here call a function of base activity for transferring the result to it.
+
+                fragment.hideProgressDialog()
+
+                Log.e(fragment.javaClass.simpleName, "Error while getting the orders list.", e)
+            }
+    }
+    // END
 
 
 

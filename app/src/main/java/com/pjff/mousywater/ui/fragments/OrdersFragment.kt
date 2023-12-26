@@ -5,7 +5,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.pjff.mousywater.R
+import com.pjff.mousywater.databinding.FragmentDashboardBinding
+import com.pjff.mousywater.databinding.FragmentOrdersBinding
+import com.pjff.mousywater.firestore.FirestoreClass
+import com.pjff.mousywater.models.Order
+import com.pjff.mousywater.ui.adapters.MyOrdersListAdapter
+
 //Bueno
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -17,44 +24,83 @@ private const val ARG_PARAM2 = "param2"
  * Use the [OrdersFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class OrdersFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+class OrdersFragment : BaseFragment()  {
+
+    private var _binding: FragmentOrdersBinding?= null
+
+    private val binding get () = _binding !!
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+        setHasOptionsMenu(true)
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_orders, container, false)
+
+        _binding = FragmentOrdersBinding.inflate(inflater,container,false)
+        val root = inflater.inflate(R.layout.fragment_dashboard, container, false)
+        return binding.root
+
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment OrdersFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            OrdersFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    // TODO Step 6: Create a function to get the success result of the my order list from cloud firestore.
+    // START
+    /**
+     * A function to get the success result of the my order list from cloud firestore.
+     *
+     * @param ordersList List of my orders.
+     */
+    fun populateOrdersListInUI(ordersList: ArrayList<Order>) {
+
+        // Hide the progress dialog.
+        hideProgressDialog()
+
+        // TODO Step 11: Populate the orders list in the UI.
+        // START
+        if (ordersList.size > 0) {
+
+            binding.rvMyOrderItems.visibility = View.VISIBLE
+            binding.tvNoOrdersFound.visibility = View.GONE
+
+            binding.rvMyOrderItems.layoutManager = LinearLayoutManager(activity)
+            binding.rvMyOrderItems.setHasFixedSize(true)
+
+            val myOrdersAdapter = MyOrdersListAdapter(requireActivity(), ordersList)
+            binding.rvMyOrderItems.adapter = myOrdersAdapter
+        } else {
+            binding.rvMyOrderItems.visibility = View.GONE
+            binding.tvNoOrdersFound.visibility = View.VISIBLE
+        }
+        // END
+    }// END
+
+
+    // TODO Step 8: Create a function to call the firestore class function to get the list of my orders.
+    // START
+    /**
+     * A function to get the list of my orders.
+     */
+    private fun getMyOrdersList() {
+        // Show the progress dialog.
+        showProgressDialog(resources.getString(R.string.please_wait))
+
+        FirestoreClass().getMyOrdersList(this@OrdersFragment)
     }
+    // END
+
+
+    // TODO Step 9: Override the on resume function and call the getMyOrdersList in it.
+    // START
+
+    override fun onResume() {
+        super.onResume()
+
+        getMyOrdersList()
+    }
+    // END
 }
