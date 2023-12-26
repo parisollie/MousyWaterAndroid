@@ -12,6 +12,11 @@ import com.pjff.mousywater.firestore.FirestoreClass
 import com.pjff.mousywater.utils.Constants
 import com.pjff.mousywater.models.Address
 class AddEditAddressActivity : BaseActivity() {
+    // TODO Step 8: Create a global variable for Address data model class to get the address details through intent to edit.
+    // START
+    private var mAddressDetails: Address? = null
+    // END
+
     private lateinit var binding:ActivityAddEditAddressBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         //This call the parent constructor
@@ -21,10 +26,23 @@ class AddEditAddressActivity : BaseActivity() {
         setContentView(binding.root)
 
 
+        // TODO Step 9: Receive the address details through intent and initialize the global variable.
+        // START
+        if (intent.hasExtra(Constants.EXTRA_ADDRESS_DETAILS)) {
+            mAddressDetails =
+                intent.getParcelableExtra(Constants.EXTRA_ADDRESS_DETAILS)!!
+        }
+        // END
+
 
         // TODO Step 7: Call the setup action bar function.
         // START
         setupActionBar()
+
+
+
+
+
         // END
 
         // TODO Step 8: Assign the checked change listener on click of radio buttons for the address type.

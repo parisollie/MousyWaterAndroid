@@ -1,6 +1,8 @@
 package com.pjff.mousywater.ui.adapters
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +12,7 @@ import com.pjff.mousywater.R
 import com.pjff.mousywater.databinding.ItemAddressLayoutBinding
 import com.pjff.mousywater.firestore.FirestoreClass
 import com.pjff.mousywater.models.Address
+import com.pjff.mousywater.ui.activities.AddEditAddressActivity
 import com.pjff.mousywater.ui.activities.CartListActivity
 import com.pjff.mousywater.utils.Constants
 import com.pjff.mousywater.utils.GlideLoader
@@ -84,5 +87,24 @@ open class AddressListAdapter(
      */
 
     override fun getItemCount(): Int = list.size
+
+
+    // TODO Step 4: Create a function to function to edit the address details and pass the existing details through intent.
+    /**
+     * A function to edit the address details and pass the existing details through intent.
+     *
+     * @param activity
+     * @param position
+     */
+    fun notifyEditItem(activity: Activity, position: Int) {
+        val intent = Intent(context, AddEditAddressActivity::class.java)
+        // TODO Step 6: Pass the address details through intent to edit the address.
+        // START
+        intent.putExtra(Constants.EXTRA_ADDRESS_DETAILS, list[position])
+        // END
+        activity.startActivity(intent)
+
+        notifyItemChanged(position) // Notify any registered observers that the item at position has changed.
+    }
 
 }

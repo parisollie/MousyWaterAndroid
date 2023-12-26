@@ -5,12 +5,15 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.pjff.mousywater.R
 import com.pjff.mousywater.databinding.ActivityAdressListBinding
 import com.pjff.mousywater.firestore.FirestoreClass
 import com.pjff.mousywater.models.Address
 import com.pjff.mousywater.ui.adapters.AddressListAdapter
+import com.pjff.mousywater.utils.SwipeToEditCallback
 
 class AdressListActivity : BaseActivity() {
     private lateinit var binding:ActivityAdressListBinding
@@ -34,13 +37,17 @@ class AdressListActivity : BaseActivity() {
         } // END
 
 
+
+    }
+
+
+    override fun onResume() {
+        super.onResume()
         // TODO Step 6: Call the function to get the address list.
         // START
         getAddressList()
         // END
     }
-
-
 
 
     // TODO Step 9: Create a function to setup action bar.
@@ -89,6 +96,26 @@ class AdressListActivity : BaseActivity() {
 
             val addressAdapter = AddressListAdapter(this@AdressListActivity, addressList)
             binding.rvAddressList.adapter = addressAdapter
+
+            // TODO Step 3: Add the swipe to edit feature.
+            // START
+            val editSwipeHandler = object : SwipeToEditCallback(this) {
+                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+
+                    // TODO Step 7: Call the notifyEditItem function of the adapter class.
+                    // START
+                    val adapter = binding.rvAddressList.adapter as AddressListAdapter
+                    adapter.notifyEditItem(
+                        this@AdressListActivity,
+                        viewHolder.adapterPosition
+                    )
+                    // END
+                }
+            }
+
+            val editItemTouchHelper = ItemTouchHelper(editSwipeHandler)
+            editItemTouchHelper.attachToRecyclerView(binding.rvAddressList)
+
         } else {
             binding.rvAddressList.visibility = View.GONE
             binding.tvNoAddressFound.visibility = View.VISIBLE
