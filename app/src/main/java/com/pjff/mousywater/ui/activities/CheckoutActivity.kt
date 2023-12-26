@@ -4,10 +4,21 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.pjff.mousywater.R
 import com.pjff.mousywater.databinding.ActivityCheckoutBinding
+import com.pjff.mousywater.firestore.FirestoreClass
 import com.pjff.mousywater.models.Address
+import com.pjff.mousywater.models.Cart
+import com.pjff.mousywater.models.Product
 import com.pjff.mousywater.utils.Constants
 
-class CheckoutActivity : AppCompatActivity() {
+class CheckoutActivity : BaseActivity() {
+    // TODO Step 12: Global variable for cart items list.
+    // START
+    private lateinit var mCartItemsList: ArrayList<Cart>
+    // END
+    // TODO Step 7: Global variable for all product list.
+    // START
+    private lateinit var mProductsList: ArrayList<Product>
+    // END
     // TODO Step 3: Create a global variable for the selected address details.
     // START
     // A global variable for the selected address details.
@@ -49,6 +60,11 @@ class CheckoutActivity : AppCompatActivity() {
         }
         // END
 
+        // TODO Step 16: Call the function to get the product list.
+        // START
+        getProductList()
+        // END
+
 
 
     }
@@ -69,8 +85,78 @@ class CheckoutActivity : AppCompatActivity() {
         }
 
         binding.toolbarCheckoutActivity.setNavigationOnClickListener { onBackPressed() }
+
+
+
     } // END
 
+
+    // TODO Step 2: Create a function to get product list to compare it with the cart items stock.
+    // START
+    /**
+     * A function to get product list to compare the current stock with the cart items.
+     */
+    private fun getProductList() {
+
+        // Show the progress dialog.
+        showProgressDialog(resources.getString(R.string.please_wait))
+
+        FirestoreClass().getAllProductsList(this@CheckoutActivity)
+    } // END
+
+
+
+    // TODO Step 4: Create a function to get the success result of product list.
+    // START
+    /**
+     * A function to get the success result of product list.
+     *
+     * @param productsList
+     */
+    fun successProductsListFromFireStore(productsList: ArrayList<Product>) {
+
+        // TODO Step 8: Initialize the global variable of all product list.
+        // START
+        mProductsList = productsList
+        // END
+
+        // TODO Step 10: Call the function to get the latest cart items.
+        // START
+        getCartItemsList()
+        // END
+    }
+    // END
+
+
+
+    // TODO Step 9: Create a function to get the list of cart items in the activity.
+    /**
+     * A function to get the list of cart items in the activity.
+     */
+    private fun getCartItemsList() {
+
+        FirestoreClass().getCartList(this@CheckoutActivity)
+    }//END
+
+
+    // TODO Step 11: Create a function to notify the success result of the cart items list from cloud firestore.
+    // START
+    /**
+     * A function to notify the success result of the cart items list from cloud firestore.
+     *
+     * @param cartList
+     */
+    fun successCartItemsList(cartList: ArrayList<Cart>) {
+
+        // Hide progress dialog.
+        hideProgressDialog()
+
+        // TODO Step 13: Initialize the cart list.
+        // START
+        mCartItemsList = cartList
+        // END
+    }
+    // END
 
 
 
