@@ -9,6 +9,7 @@ import com.pjff.mousywater.databinding.ActivityDashboardBinding
 import com.pjff.mousywater.ui.fragments.DashboardFragment
 import com.pjff.mousywater.ui.fragments.OrdersFragment
 import com.pjff.mousywater.ui.fragments.ProductsFragment
+import com.pjff.mousywater.ui.fragments.SoldProductsFragment
 
 //Bueno
 class DashboardActivity : AppCompatActivity() {
@@ -36,6 +37,7 @@ class DashboardActivity : AppCompatActivity() {
                 R.id.navigation_dashboard -> replaceFragment(DashboardFragment())
                 R.id.navigation_orders -> replaceFragment(OrdersFragment())
                 R.id.navigation_products-> replaceFragment(ProductsFragment())
+                R.id.navigation_sold_products-> replaceFragment(SoldProductsFragment())
 
                 else ->{
 

@@ -13,17 +13,7 @@ import com.pjff.mousywater.firestore.FirestoreClass
 import com.pjff.mousywater.models.Order
 import com.pjff.mousywater.ui.adapters.MyOrdersListAdapter
 
-//Bueno
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-//Bueno
-/**
- * A simple [Fragment] subclass.
- * Use the [OrdersFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
+
 class OrdersFragment : BaseFragment()  {
 
     private var _binding: FragmentOrdersBinding?= null

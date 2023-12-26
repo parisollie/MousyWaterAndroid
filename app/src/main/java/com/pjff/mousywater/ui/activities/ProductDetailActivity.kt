@@ -19,6 +19,12 @@ import com.pjff.mousywater.utils.GlideLoader
 
 class ProductDetailActivity : BaseActivity() , View.OnClickListener{
 
+
+    // TODO Step 3: Make the product owner id variable as global and rename it.
+    // START
+    private var mProductOwnerId: String = ""
+    // END
+
     // TODO Step 5: Create a global instance of the Product data class which will be initialized later on.
     // START
     private lateinit var mProductDetails: Product
@@ -51,10 +57,10 @@ class ProductDetailActivity : BaseActivity() , View.OnClickListener{
 
         // TODO Step 7: Get the product owner id through intent.
         // START
-        var productOwnerId: String = ""
+        //var productOwnerId: String = ""
 
         if (intent.hasExtra(Constants.EXTRA_PRODUCT_OWNER_ID)) {
-            productOwnerId =
+            mProductOwnerId =
                 intent.getStringExtra(Constants.EXTRA_PRODUCT_OWNER_ID)!!
         }
         // END
@@ -62,7 +68,7 @@ class ProductDetailActivity : BaseActivity() , View.OnClickListener{
 
         // TODO Step 8: Now we have the product owner id so if the product which is added by owner himself should not see the button Add To Cart.
         // START
-        if (FirestoreClass().getCurrentUserID() == productOwnerId) {
+        if (FirestoreClass().getCurrentUserID() == mProductOwnerId) {
             binding.btnAddToCart.visibility = View.GONE
             binding.btnGoToCart.visibility = View.GONE
         } else {
@@ -185,6 +191,9 @@ class ProductDetailActivity : BaseActivity() , View.OnClickListener{
 
         val addToCart = Cart(
             FirestoreClass().getCurrentUserID(),
+            // TODO Step 4: Pass the required param here.
+            // START
+            mProductOwnerId,
             mProductId,
             mProductDetails.title,
             mProductDetails.price,

@@ -17,6 +17,11 @@ import com.pjff.mousywater.ui.adapters.CartItemsListAdapter
 import com.pjff.mousywater.utils.Constants
 
 class CheckoutActivity : BaseActivity() {
+    // TODO Step 6: Create a global variable for Order details.
+    // START
+    // A global variable for Order details.
+    private lateinit var mOrderDetails: Order
+    // END
     // TODO Step 3: Create a global variables for SubTotal and Total Amount.
     // START
     // A global variable for the SubTotal Amount.
@@ -251,7 +256,7 @@ class CheckoutActivity : BaseActivity() {
 
             // TODO Step 5: Now prepare the order details based on all the required details.
             // START
-            val order = Order(
+            mOrderDetails = Order(
                 FirestoreClass().getCurrentUserID(),
                 mCartItemsList,
                 mAddressDetails!!,
@@ -270,7 +275,7 @@ class CheckoutActivity : BaseActivity() {
             )
             // TODO Step 10: Call the function to place the order in the cloud firestore.
             // START
-            FirestoreClass().placeOrder(this@CheckoutActivity, order)
+            FirestoreClass().placeOrder(this@CheckoutActivity, mOrderDetails)
             // END
 
         }
@@ -297,7 +302,7 @@ class CheckoutActivity : BaseActivity() {
         startActivity(intent)
         finish()*/
 
-        FirestoreClass().updateAllDetails(this@CheckoutActivity, mCartItemsList)
+        FirestoreClass().updateAllDetails(this@CheckoutActivity, mCartItemsList,mOrderDetails)
         // END
     } // END
 

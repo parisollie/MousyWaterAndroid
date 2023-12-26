@@ -13,4 +13,12 @@
     android:title="@string/title_orders"
     android:id="@+id/navigation_orders"
     android:icon="@drawable/ic_vector_orders"/>
+
+    <!--TODO Step 4: Add the item for sold products.-->
+    <!--START-->
+    <item
+        android:id="@+id/navigation_sold_products"
+        android:icon="@drawable/ic_vector_sold_products"
+        android:title="@string/title_sold_products" />
+    <!--END-->
 </menu>
