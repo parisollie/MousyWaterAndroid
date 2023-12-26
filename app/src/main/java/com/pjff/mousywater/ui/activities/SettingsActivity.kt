@@ -34,7 +34,6 @@ class SettingsActivity : BaseActivity(), View.OnClickListener {
 
         setupActionBar()
 
-
         binding.tvEdit.setOnClickListener(this@SettingsActivity)
         binding.btnLogout.setOnClickListener(this@SettingsActivity)
         // TODO Step 7: Assign the click event for the ll_address.
