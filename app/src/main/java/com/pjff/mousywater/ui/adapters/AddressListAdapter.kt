@@ -98,6 +98,8 @@ open class AddressListAdapter(
             ).show()*/
 
             val intent = Intent(context, CheckoutActivity::class.java)
+            // START
+            intent.putExtra(Constants.EXTRA_SELECTED_ADDRESS, model)
             context.startActivity(intent)
             // END
 
