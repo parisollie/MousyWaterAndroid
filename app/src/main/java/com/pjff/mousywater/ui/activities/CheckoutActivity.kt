@@ -223,12 +223,12 @@ class CheckoutActivity : BaseActivity() {
 
         binding.tvCheckoutSubTotal.text = "$$mSubTotal"
         // Here we have kept Shipping Charge is fixed as $10 but in your case it may cary. Also, it depends on the location and total amount.
-        binding.tvCheckoutShippingCharge.text = "$10.0"
+        binding.tvCheckoutShippingCharge.text = "$1.0"
 
         if (mSubTotal > 0) {
             binding.llCheckoutPlaceOrder.visibility = View.VISIBLE
 
-            mTotalAmount = mSubTotal + 10.0
+            mTotalAmount = mSubTotal + 1.0
             binding.tvCheckoutTotalAmount.text = "$$mTotalAmount"
         } else {
             binding.llCheckoutPlaceOrder.visibility = View.GONE
@@ -258,7 +258,7 @@ class CheckoutActivity : BaseActivity() {
                 "My order ${System.currentTimeMillis()}",
                 mCartItemsList[0].image,
                 mSubTotal.toString(),
-                "10.0", // The Shipping Charge is fixed as $10 for now in our case.
+                "1.0", // The Shipping Charge is fixed as $10 for now in our case.
                 mTotalAmount.toString(),
                 System.currentTimeMillis()
 

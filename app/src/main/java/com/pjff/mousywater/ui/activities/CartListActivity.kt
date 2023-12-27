@@ -161,12 +161,12 @@ class CartListActivity : BaseActivity()  {
 
             binding.tvSubTotal.text = "$$subTotal"
             // Here we have kept Shipping Charge is fixed as $10 but in your case it may cary. Also, it depends on the location and total amount.
-            binding.tvShippingCharge.text = "$10.0"
+            binding.tvShippingCharge.text = "$1.0"
 
             if (subTotal > 0) {
                 binding.llCheckout.visibility = View.VISIBLE
 
-                val total = subTotal + 10
+                val total = subTotal + 1
                 binding.tvTotalAmount.text = "$$total"
             } else {
                 binding.llCheckout.visibility = View.GONE

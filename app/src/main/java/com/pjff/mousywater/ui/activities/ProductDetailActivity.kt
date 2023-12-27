@@ -132,7 +132,7 @@ class ProductDetailActivity : BaseActivity() , View.OnClickListener{
         binding.tvProductDetailsTitle.text = product.title
         binding.tvProductDetailsPrice.text = "$${product.price}"
         binding.tvProductDetailsDescription.text = product.description
-        binding.tvProductDetailsQuantity.text = product.stock_quantity
+        binding.tvProductDetailsAvailableQuantity.text = product.stock_quantity
 
         // TODO Step 8: Update the UI if the stock quantity is 0.
         // START
