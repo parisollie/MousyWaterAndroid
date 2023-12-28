@@ -36,7 +36,7 @@ class DashboardActivity : AppCompatActivity() {
 
                 R.id.navigation_dashboard -> replaceFragment(DashboardFragment())
                 R.id.navigation_orders -> replaceFragment(OrdersFragment())
-                R.id.navigation_products-> replaceFragment(ProductsFragment())
+               // R.id.navigation_products-> replaceFragment(ProductsFragment())
                 R.id.navigation_sold_products-> replaceFragment(SoldProductsFragment())
 
                 else ->{
